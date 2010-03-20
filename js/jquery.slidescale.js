@@ -2,7 +2,7 @@
 $.fn.slidescale = function (options) {
     this.each(function () {
         var elem = $(this),
-            obj = $.slidescale(elem, options);
+            obj = new $.slidescale(elem, options);
         elem.data('slidescale', obj);
     });
 
