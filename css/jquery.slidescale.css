@@ -1,12 +1,13 @@
 .ss ol.ss-list {
     list-style-type: none;
     padding: 0px;
-    margin: 0px;
+    margin: 0px; border: 1px solid black;
 }
 
 .ss ol.ss-list li {
     padding: 0px;
     margin: 0px;
+    float: left;
     /* display: none; */
 }
 
@@ -14,8 +15,20 @@
     display: block;
 }
 
+.ss div.ss-bottom {
+    clear: left;
+    border: 1px dotted black;
+}
+
 .ss div.ss-bottom * {
     float: left;
+}
+
+.ss br.clear {
+    font-size: 0px;
+    height: 0px;
+    clear: both;
+    float: none;
 }
 
 .ss ol.ss-thumb-list {
@@ -23,3 +36,4 @@
     padding: 0px;
     margin: 0px;
 }
+

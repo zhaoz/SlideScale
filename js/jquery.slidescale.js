@@ -39,7 +39,6 @@ function ScImage(entry, options) {
     this.added = !!this.entry;
     if (!this.added) {
         this.entry = $('<li />').append(this.caption);
-        console.log(this.entry);
     }
 }
 
@@ -56,8 +55,10 @@ $.slidescale = function (container, options) {
     this.list = this.container.children('ol');
     o = this.opts = $.extend({}, $.slidescale.defaults, options);
 
+    this.list.height(o.gallery_height);
 
-    this.thumblist = $("<ol />", { "class": "ss-thumb-list" });
+    this.thumblist = $("<ol />", { "class": "ss-thumb-list", 
+            height: o.thumb_height });
 
     this.bottom = this._constructBottom(this.thumblist)
         .appendTo(this.container);
@@ -85,6 +86,8 @@ $.slidescale = function (container, options) {
 };
 
 $.slidescale.defaults = {
+    gallery_height: 300,
+    thumb_height: 75,
     startingIndex: 0,                // index of images to start on 
     photopath: "./img/photos",
     thumbpath: "./img/thumbs"
@@ -95,7 +98,8 @@ _constructBottom: function (thumblist) {
     return $('<div class="ss-bottom" />')
         .append('<div class="ss-prev">&lt;</div>')
         .append(thumblist)
-        .append('<div class="ss-next">&gt;</div>');
+        .append('<div class="ss-next">&gt;</div>')
+        .append('<br class="clear" />');
 },
 
 _initImages: function () {
@@ -123,7 +127,6 @@ addImage: function (img) {
     this.images.push(scimg);
 
     if (!scimg.added) {
-        console.info(scimg.entry);
         this.list.append(scimg.entry);
     }
 
