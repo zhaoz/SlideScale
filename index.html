@@ -7,9 +7,31 @@
 </head>
 <body>
 
+<div id="gallery">
+    <ol id="galleryList">
+        <li>
+            <img src="./img/thumbs/blue-fish.jpg" />
+            <caption>This is a blue fish!</caption>
+        </li>
+        <li>
+            <img src="./img/thumbs/coral-reef.jpg" />
+            <caption>Coral reefs are fascinating</caption>
+        </li>
+        <li>
+            <img src="./img/thumbs/orange-fish.jpg" />
+            <caption>There are days that all I want to do is orange fish</caption>
+        </li>
+        <li>
+            <img src="./img/thumbs/red-coral.jpg" />
+            <caption>Coral is mans best dog</caption>
+        </li>
+    </ol>
+</div>
+
 <script src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
 <script src="./js/jquery.slidescale.js"></script>
 <script>
+$('#gallery').slidescale();
 </script>
 </body>
 </html>

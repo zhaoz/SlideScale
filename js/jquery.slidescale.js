@@ -11,9 +11,10 @@ $.fn.slidescale = function (options) {
 
 $.slidescale = function (container, options) {
     this.container = container;
-
     this.opts = $.extend({}, $.slidescale.defaults, options);
- 
+
+    this.container.addClass('slidescale')
+        .children('ol').addClass('slidescale-list');
 };
 
 $.slidescale.defaults = {
