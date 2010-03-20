@@ -13,3 +13,13 @@
 .ss ol.ss-list li.ss-current {
     display: block;
 }
+
+.ss div.ss-bottom * {
+    float: left;
+}
+
+.ss ol.ss-thumb-list {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}

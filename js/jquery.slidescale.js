@@ -13,22 +13,24 @@ $.fn.slidescale = function (options) {
 };
 
 function ScImage(entry, options) {
+    var img;
     if ($.isPlainObject(entry)) {
         options = entry;
         entry = null;
     } else {
-        this.thumb = entry.find('img').remove();
+        img = entry.find('img').remove();
+        this.thumb = $('<li />', { html: img });
         this.caption = entry.find('p');
 
-        this.name = this.thumb.attr('src').match(pathrex)[1];
+        this.name = img.attr('src').match(pathrex)[1];
         this.entry = entry;
     }
     $.extend(this, options || {}, ScImage.defaults);
 
     if (!this.thumb) {
-        this.thumb = $('<img />', {
-                    src: [this.thumbpath, this.img].join("/")
-                });
+        this.thumb = $('<li />', {
+            html: $('<img />', { src: [this.thumbpath, this.img].join("/") })
+        });
     }
     if (!this.caption) {
         this.caption = $('<p />').text(this.text);
@@ -54,7 +56,10 @@ $.slidescale = function (container, options) {
     this.list = this.container.children('ol');
     o = this.opts = $.extend({}, $.slidescale.defaults, options);
 
-    this.thumblist = $("<ol />", { "class": "ss-thumb-list" })
+
+    this.thumblist = $("<ol />", { "class": "ss-thumb-list" });
+
+    this.bottom = this._constructBottom(this.thumblist)
         .appendTo(this.container);
 
     this.container.addClass('ss')
@@ -86,6 +91,12 @@ $.slidescale.defaults = {
 };
 
 $.slidescale.prototype = {
+_constructBottom: function (thumblist) {
+    return $('<div class="ss-bottom" />')
+        .append('<div class="ss-prev">&lt;</div>')
+        .append(thumblist)
+        .append('<div class="ss-next">&gt;</div>');
+},
 
 _initImages: function () {
     var that = this;
