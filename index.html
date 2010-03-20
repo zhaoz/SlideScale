@@ -31,7 +31,19 @@
 <script src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
 <script src="./js/jquery.slidescale.js"></script>
 <script>
-$('#gallery').slidescale();
+    $('#gallery').slidescale({
+        images: [
+            { url: "sea-turtle.jpg",
+                text: "Watch, the mighty Sea Turtle!"},
+            {url: "small-fish.jpg",
+                text: "Small fish are excellent too"},
+            {url: "squid.jpg",
+                text: "The squid ink squirts with such alacrity"},
+            {url: "yellow-fish.jpg",
+                text: "Fish may want to be yellow too"}
+        ]
+    });
+
 </script>
 </body>
 </html>
