@@ -1,10 +1,15 @@
-.slidescale ol.slidescale-list {
+.ss ol.ss-list {
     list-style-type: none;
     padding: 0px;
     margin: 0px;
 }
 
-.slidescale ol.slidescale-list li {
+.ss ol.ss-list li {
     padding: 0px;
     margin: 0px;
+    display: none;
+}
+
+.ss ol.ss-list li.ss-current {
+    display: block;
 }
