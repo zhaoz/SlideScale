@@ -1,0 +1,10 @@
+.slidescale ol.slidescale-list {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+.slidescale ol.slidescale-list li {
+    padding: 0px;
+    margin: 0px;
+}
