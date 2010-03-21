@@ -62,7 +62,7 @@ ScImage.defaults = {
 };
 
 $.slidescale = function (container, options) {
-    var ii, imgs, o,
+    var ii, imgs, o, that = this,
         $this = $(this);
 
     o = this.opts = $.extend({}, $.slidescale.defaults, options);
@@ -85,7 +85,12 @@ $.slidescale = function (container, options) {
     this.wrapper
         .append('<div class="ss-prev ss-button" />')
         .append('<div class="ss-next ss-button" />')
-        .appendTo(container);
+        .appendTo(container)
+        .find('.ss-button').css('opacity', 0.5);
+
+    setTimeout(function () {
+            that.wrapper.find('.ss-button').animate({ opacity: 0 });
+        }, 2000);
 
     this.thumblist = $("<ol />", { "class": "ss-thumb-list" });
 
@@ -131,6 +136,12 @@ init: function () {
             })
         .delegate('.ss-list-wrapper .ss-prev', 'click', function (eve) {
                 $(c).trigger('prev');
+            })
+        .delegate('.ss-button', 'mouseout', function (eve) {
+                $(this).animate({ opacity: 0 });
+            })
+        .delegate('.ss-button', 'mouseenter', function (eve) {
+                $(this).animate({ opacity: 0.5 });
             });
 },
 
