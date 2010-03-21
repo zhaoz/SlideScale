@@ -21,7 +21,7 @@ div.ss .ss-list-wrapper {
 
 .ss ol.ss-list li {
     padding: 0px;
-    margin: 0px 20px;
+    margin: 0px 10px;
     float: left;
     height: 100%;
     position: relative;
@@ -50,9 +50,9 @@ div.ss .ss-list-wrapper {
 }
 
 .ss div.ss-list-wrapper .ss-button {
-    background: #CCC;
+    background-color: #CCC;
     color: white;
-    min-width: 30px;
+    width: 60px;
 }
 
 .ss .ss-button {
@@ -60,6 +60,7 @@ div.ss .ss-list-wrapper {
     height: 100%;
     z-index: 2;
     position: absolute;
+    background-repeat: no-repeat;
 }
 
 .ss div.ss-bottom .ss-button {
@@ -67,12 +68,22 @@ div.ss .ss-list-wrapper {
     color: white;
 }
 
+.ss .ss-list-wrapper .ss-prev {
+    background-image: url("../img/left_arrow.png");
+}
+
+.ss .ss-list-wrapper .ss-next {
+    background-image: url("../img/right_arrow.png");
+}
+
 .ss .ss-prev {
     left: 0px;
+    background-position: center center;
 }
 
 .ss .ss-next {
     right: 0px;
+    background-position: center center;
 }
 
 .ss div.ss-bottom * {

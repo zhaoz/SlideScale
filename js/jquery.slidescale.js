@@ -79,8 +79,8 @@ $.slidescale = function (container, options) {
         .appendTo(this.wrapper);
 
     this.wrapper
-        .append('<div class="ss-prev ss-button">&lt;</div>')
-        .append('<div class="ss-next ss-button">&gt;</div>')
+        .append('<div class="ss-prev ss-button" />')
+        .append('<div class="ss-next ss-button" />')
         .appendTo(container);
 
     this.thumblist = $("<ol />", { "class": "ss-thumb-list" });
