@@ -58,7 +58,7 @@ ScImage.defaults = {
 };
 
 $.slidescale = function (container, options) {
-    var ii, imgs, o, wrapper,
+    var ii, imgs, o,
         $this = $(this);
 
     o = this.opts = $.extend({}, $.slidescale.defaults, options);
@@ -71,14 +71,14 @@ $.slidescale = function (container, options) {
         this.list = $('<ol />').appendTo(container);
     }
 
-    wrapper = $('<div class="ss-list-wrapper" />');
+    this.wrapper = $('<div class="ss-list-wrapper" />');
 
     this.list
         .addClass('ss-list')
         .height(o.gallery_height)
-        .appendTo(wrapper);
+        .appendTo(this.wrapper);
 
-    wrapper
+    this.wrapper
         .append('<div class="ss-prev ss-button">&lt;</div>')
         .append('<div class="ss-next ss-button">&gt;</div>')
         .appendTo(container);
@@ -99,12 +99,10 @@ $.slidescale = function (container, options) {
         }
     }
 
-    this.curImage = 0;
-    this.setImageIndex(o.startingIndex);
+    this.curImage = -1;
+    this.init();
 
-    $(this)
-        .bind('next', $.proxy(this, this.nextImg))
-        .bind('prev', $.proxy(this, this.prevImg));
+    this.setImageIndex(o.startingIndex);
 };
 
 $.slidescale.defaults = {
@@ -117,6 +115,22 @@ $.slidescale.defaults = {
 };
 
 $.slidescale.prototype = {
+init: function () {
+    var that = this;
+
+    $(this)
+        .bind('next', $.proxy(this, this.nextImg))
+        .bind('prev', $.proxy(this, this.prevImg));
+
+    this.container
+        .delegate('.ss-list-wrapper .ss-next', 'click', function () {
+                $(that).trigger('next');
+            })
+        .delegate('.ss-list-wrapper .ss-prev', 'click', function () {
+                $(that).trigger('prev');
+            });
+},
+
 _constructBottom: function (thumblist) {
     return $('<div class="ss-bottom" />')
         .append('<div class="ss-prev ss-button">&lt;</div>')
@@ -134,12 +148,16 @@ _initImages: function () {
 },
 
 prevImg: function (eve) {
-    eve.preventDefault();
+    if (eve) {
+        eve.preventDefault();
+    }
     this.setImageIndex(this.curImage - 1);
 },
 
 nextImg: function (eve) {
-    eve.preventDefault();
+    if (eve) {
+        eve.preventDefault();
+    }
     this.setImageIndex(this.curImage + 1);
 },
 
@@ -161,10 +179,12 @@ addImage: function (img) {
         bigImg = scimg.getImage();
         scimg.entry.append(bigImg);
     }
+
+    this.list.width(this.list.width() + scimg.entry.outerWidth());
 },
 
 setImageIndex: function (ii) {
-    var scimg, oldscimg;
+    var scimg, oldscimg, offset, entry, width;
 
     oldscimg = this.images[this.curImage];
 
@@ -178,8 +198,19 @@ setImageIndex: function (ii) {
     scimg = this.images[this.curImage];
 
     // TODO all types of crazy effects
-    oldscimg.entry.removeClass('ss-current');
-    scimg.entry.addClass('ss-current');
+    if (oldscimg) {
+        oldscimg.entry.removeClass('ss-current');
+    }
+
+    entry = scimg.entry;
+    entry.addClass('ss-current');
+
+    // recenter on the image
+    offset = -entry.position().left;
+    offset += this.wrapper.innerWidth() / 2;
+    offset -= entry.outerWidth() / 2;
+
+    this.list.css('left', offset);
 }
 
 };
