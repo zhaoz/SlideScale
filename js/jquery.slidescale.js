@@ -181,6 +181,17 @@ addImage: function (img) {
     }
 
     this.list.width(this.list.width() + scimg.entry.outerWidth());
+    this.thumblist.width(this.thumblist.width() + scimg.thumb.outerWidth());
+},
+
+_center: function (container, entry, list) {
+    var offset;
+
+    offset = -entry.position().left;
+    offset += container.innerWidth() / 2;
+    offset -= entry.outerWidth() / 2;
+
+    list.css('left', offset);
 },
 
 setImageIndex: function (ii) {
@@ -205,12 +216,8 @@ setImageIndex: function (ii) {
     entry = scimg.entry;
     entry.addClass('ss-current');
 
-    // recenter on the image
-    offset = -entry.position().left;
-    offset += this.wrapper.innerWidth() / 2;
-    offset -= entry.outerWidth() / 2;
-
-    this.list.css('left', offset);
+    this._center(this.wrapper, entry, this.list);
+    this._center(this.bottom, scimg.thumb, this.thumblist);
 }
 
 };
