@@ -191,7 +191,7 @@ _center: function (container, entry, list) {
     offset += container.innerWidth() / 2;
     offset -= entry.outerWidth() / 2;
 
-    list.css('left', offset);
+    list.animate({left: offset});
 },
 
 setImageIndex: function (ii) {
