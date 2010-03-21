@@ -116,18 +116,17 @@ $.slidescale.defaults = {
 
 $.slidescale.prototype = {
 init: function () {
-    var that = this;
-
-    $(this)
-        .bind('next', $.proxy(this, this.nextImg))
-        .bind('prev', $.proxy(this, this.prevImg));
+    var that = this,
+        c = this.container;
 
     this.container
-        .delegate('.ss-list-wrapper .ss-next', 'click', function () {
-                $(that).trigger('next');
+        .bind('next', $.proxy(this, 'nextImg'))
+        .bind('prev', $.proxy(this, 'prevImg'))
+        .delegate('.ss-list-wrapper .ss-next', 'click', function (eve) {
+                $(c).trigger('next');
             })
-        .delegate('.ss-list-wrapper .ss-prev', 'click', function () {
-                $(that).trigger('prev');
+        .delegate('.ss-list-wrapper .ss-prev', 'click', function (eve) {
+                $(c).trigger('prev');
             });
 },
 

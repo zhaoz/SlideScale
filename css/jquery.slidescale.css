@@ -44,7 +44,7 @@ div.ss .ss-list-wrapper {
 
 .ss div.ss-bottom {
     clear: left;
-    border: 1px dotted black;
+    border: 1px solid black;
     overflow: hidden;
     position: relative;
 }
