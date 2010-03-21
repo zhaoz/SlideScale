@@ -21,7 +21,7 @@ div.ss .ss-list-wrapper {
 
 .ss ol.ss-list li {
     padding: 0px;
-    margin: 0px;
+    margin: 0px 20px;
     float: left;
     height: 100%;
     position: relative;
@@ -49,19 +49,29 @@ div.ss .ss-list-wrapper {
     position: relative;
 }
 
-.ss div.ss-bottom .ss-button {
-    height: 100%;
-    z-index: 2;
+.ss div.ss-list-wrapper .ss-button {
     background: #CCC;
     color: white;
+    min-width: 30px;
+}
+
+.ss .ss-button {
+    top: 0px;
+    height: 100%;
+    z-index: 2;
     position: absolute;
 }
 
-.ss div.ss-bottom .ss-prev {
+.ss div.ss-bottom .ss-button {
+    background: #CCC;
+    color: white;
+}
+
+.ss .ss-prev {
     left: 0px;
 }
 
-.ss div.ss-bottom .ss-next {
+.ss .ss-next {
     right: 0px;
 }
 

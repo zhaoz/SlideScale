@@ -58,7 +58,7 @@ ScImage.defaults = {
 };
 
 $.slidescale = function (container, options) {
-    var ii, imgs, o,
+    var ii, imgs, o, wrapper,
         $this = $(this);
 
     o = this.opts = $.extend({}, $.slidescale.defaults, options);
@@ -71,10 +71,17 @@ $.slidescale = function (container, options) {
         this.list = $('<ol />').appendTo(container);
     }
 
+    wrapper = $('<div class="ss-list-wrapper" />');
+
     this.list
         .addClass('ss-list')
         .height(o.gallery_height)
-        .wrap('<div class="ss-list-wrapper" />');
+        .appendTo(wrapper);
+
+    wrapper
+        .append('<div class="ss-prev ss-button">&lt;</div>')
+        .append('<div class="ss-next ss-button">&gt;</div>')
+        .appendTo(container);
 
     this.thumblist = $("<ol />", { "class": "ss-thumb-list" });
 
