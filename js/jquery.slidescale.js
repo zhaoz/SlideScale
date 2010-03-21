@@ -1,3 +1,7 @@
+/**
+ * jquery.slidescale.js
+ * @author Ziling Zhao <zilingzhao@gmail.com>
+ */
 (function ($) {
 
 var pathrex = /(?:\/|^)([^\/]+)$/;
