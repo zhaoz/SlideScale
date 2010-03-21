@@ -57,11 +57,10 @@ $.slidescale = function (container, options) {
 
     this.list.height(o.gallery_height);
 
-    this.thumblist = $("<ol />", { "class": "ss-thumb-list", 
-            height: o.thumb_height });
+    this.thumblist = $("<ol />", { "class": "ss-thumb-list" });
 
     this.bottom = this._constructBottom(this.thumblist)
-        .appendTo(this.container);
+        .appendTo(this.container).height(o.thumb_height);
 
     this.container.addClass('ss')
         .children('ol').addClass('ss-list');
@@ -96,9 +95,9 @@ $.slidescale.defaults = {
 $.slidescale.prototype = {
 _constructBottom: function (thumblist) {
     return $('<div class="ss-bottom" />')
-        .append('<div class="ss-prev">&lt;</div>')
+        .append('<div class="ss-prev ss-button">&lt;</div>')
         .append(thumblist)
-        .append('<div class="ss-next">&gt;</div>')
+        .append('<div class="ss-next ss-button">&gt;</div>')
         .append('<br class="clear" />');
 },
 

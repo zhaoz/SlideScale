@@ -18,10 +18,28 @@
 .ss div.ss-bottom {
     clear: left;
     border: 1px dotted black;
+    overflow: hidden;
+    position: relative;
+}
+
+.ss div.ss-bottom .ss-button {
+    height: 100%;
+    z-index: 2;
+    background: #CCC;
+    color: white;
+    position: absolute;
+}
+
+.ss div.ss-bottom .ss-prev {
+    left: 0px;
+}
+
+.ss div.ss-bottom .ss-next {
+    right: 0px;
 }
 
 .ss div.ss-bottom * {
-    float: left;
+    top: 0px;
 }
 
 .ss br.clear {
@@ -32,8 +50,15 @@
 }
 
 .ss ol.ss-thumb-list {
+    position: absolute;
     list-style-type: none;
     padding: 0px;
     margin: 0px;
+    width: 150%;
 }
+
+.ss ol.ss-thumb-list * {
+    float: left;
+}
+
 
