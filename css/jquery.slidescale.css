@@ -24,7 +24,6 @@ div.ss .ss-list-wrapper {
     margin: 0px;
     float: left;
     height: 100%;
-    padding: 0px 30px;
     position: relative;
     min-width: 200px;
 }
@@ -37,8 +36,10 @@ div.ss .ss-list-wrapper {
     position: absolute;
     bottom: 0px;
     background: #999;
-    padding: 1em;
     margin: 0px;
+    width: 100%;
+    text-align: center;
+    padding: 0.5em 0;
 }
 
 .ss div.ss-bottom {

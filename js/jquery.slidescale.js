@@ -114,8 +114,8 @@ _constructBottom: function (thumblist) {
 _initImages: function () {
     var that = this;
     this.container.find('ol.ss-list > li').each(function () {
-        that.addImage($(this));
-    })
+            that.addImage($(this));
+        })
         .find("p").addClass('ss-caption');
 },
 
