@@ -33,7 +33,7 @@ function ScImage(entry, options) {
         });
     }
     if (!this.caption) {
-        this.caption = $('<p />').text(this.text);
+        this.caption = $('<p class="ss-caption"/>').text(this.text);
     }
 
     this.added = !!this.entry;
@@ -41,6 +41,9 @@ function ScImage(entry, options) {
         this.entry = $('<li />').append(this.caption);
     }
 }
+
+ScImage.prototype = {
+};
 
 ScImage.defaults = {
     photopath: "./img/photos",
@@ -51,19 +54,25 @@ $.slidescale = function (container, options) {
     var ii, imgs, o,
         $this = $(this);
 
-    this.container = container;
-    this.list = this.container.children('ol');
     o = this.opts = $.extend({}, $.slidescale.defaults, options);
 
-    this.list.height(o.gallery_height);
+    this.container = container
+        .addClass('ss')
+        .width(o.gallery_width);
+    this.list = container.children('ol');
+    if (!this.list.size()) {
+        this.list = $('<ol />').appendTo(container);
+    }
+
+    this.list
+        .addClass('ss-list')
+        .height(o.gallery_height)
+        .wrap('<div class="ss-list-wrapper" />');
 
     this.thumblist = $("<ol />", { "class": "ss-thumb-list" });
 
     this.bottom = this._constructBottom(this.thumblist)
         .appendTo(this.container).height(o.thumb_height);
-
-    this.container.addClass('ss')
-        .children('ol').addClass('ss-list');
 
     this.images = [];
 
@@ -86,6 +95,7 @@ $.slidescale = function (container, options) {
 
 $.slidescale.defaults = {
     gallery_height: 300,
+    gallery_width: 800,
     thumb_height: 75,
     startingIndex: 0,                // index of images to start on 
     photopath: "./img/photos",
@@ -105,7 +115,8 @@ _initImages: function () {
     var that = this;
     this.container.find('ol.ss-list > li').each(function () {
         that.addImage($(this));
-    });
+    })
+        .find("p").addClass('ss-caption');
 },
 
 prevImg: function (eve) {

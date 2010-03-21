@@ -1,18 +1,44 @@
+div.ss {
+    position: relative;
+    overflow: hidden;
+}
+
+div.ss .ss-list-wrapper {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid black;
+}
+
 .ss ol.ss-list {
+    position: relative;
     list-style-type: none;
     padding: 0px;
-    margin: 0px; border: 1px solid black;
+    margin: 0px;
+    width: 150%;
+    top: 0px;
+    overflow: hidden;
 }
 
 .ss ol.ss-list li {
     padding: 0px;
     margin: 0px;
     float: left;
-    /* display: none; */
+    height: 100%;
+    padding: 0px 30px;
+    position: relative;
+    min-width: 200px;
 }
 
 .ss ol.ss-list li.ss-current {
     display: block;
+}
+
+.ss ol.ss-list li .ss-caption {
+    position: absolute;
+    bottom: 0px;
+    background: #999;
+    padding: 1em;
+    margin: 0px;
 }
 
 .ss div.ss-bottom {
