@@ -1,6 +1,6 @@
 (function ($) {
 
-var pathrex = /\/([^\/])*$/;
+var pathrex = /(?:\/|^)([^\/]+)$/;
 
 $.fn.slidescale = function (options) {
     this.each(function () {
@@ -29,7 +29,7 @@ function ScImage(entry, options) {
 
     if (!this.thumb) {
         this.thumb = $('<li />', {
-            html: $('<img />', { src: [this.thumbpath, this.img].join("/") })
+            html: $('<img />', { src: [this.thumbpath, this.name].join("/") })
         });
     }
     if (!this.caption) {
@@ -40,9 +40,16 @@ function ScImage(entry, options) {
     if (!this.added) {
         this.entry = $('<li />').append(this.caption);
     }
+
+    this.image = null;
 }
 
 ScImage.prototype = {
+getImage: function () {
+    this.image = $('<img />', { "class": "ss-photo",
+            src: [this.photopath, this.name].join("/") });
+    return this.image;
+}
 };
 
 ScImage.defaults = {
@@ -133,7 +140,7 @@ nextImg: function (eve) {
  * Take an image hash, img.url, img.text, add to images list
  */
 addImage: function (img) {
-    var scimg = new ScImage(img);
+    var scimg = new ScImage(img), bigImg;
     this.images.push(scimg);
 
     if (!scimg.added) {
@@ -143,6 +150,10 @@ addImage: function (img) {
     this.thumblist.append(scimg.thumb);
 
     // TODO need to check index and load if needed
+    if (!scimg.image) {
+        bigImg = scimg.getImage();
+        scimg.entry.append(bigImg);
+    }
 },
 
 setImageIndex: function (ii) {
