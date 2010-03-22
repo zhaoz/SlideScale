@@ -200,7 +200,10 @@ nextImg: function (eve) {
  * Take an image hash, img.url, img.text, add to images list
  */
 addImage: function (img) {
-    var scimg = new ScImage(img), bigImg;
+    var scimg = new ScImage(img,
+            { photopath: this.photopath, thumbpath: this.thumbpath }),
+        bigImg;
+
     this.images.push(scimg);
 
     if (!scimg.added) {
