@@ -36,7 +36,6 @@ function ScImage(entry, options) {
             html: $('<img />', { src: [this.thumbpath, this.name].join("/") })
         });
     }
-
     if (!this.caption) {
         this.caption = $('<p />').text(this.text);
     }
@@ -52,6 +51,10 @@ function ScImage(entry, options) {
         this.entry = $('<li />');
     }
     this.entry.append(this.caption);
+    this.entry.css('opacity', 0.5);
+    this.thumb.css('opacity', 0.5);
+
+    this.entry.data("ScImage.ss", this);
 
     this.image = undefined;
 }
@@ -79,8 +82,8 @@ $.slidescale = function (container, options) {
         .addClass('ss')
         .width(o.gallery_width);
 
-    $('<div class="ss-wrapper" />').css('opacity', 0.5)
-        .appendTo(container);
+    // $('<div class="ss-wrapper" />').css('opacity', 0.5)
+        // .appendTo(container);
 
     this.list = container.children('ol');
     if (!this.list.size()) {
@@ -131,7 +134,7 @@ $.slidescale.defaults = {
     gallery_height: 300,
     gallery_width: 800,
     thumb_height: 75,
-    startingIndex: 0,                // index of images to start on 
+    startingIndex: 0,                // index of images to start on
     photopath: "./img/photos",
     thumbpath: "./img/thumbs"
 };
@@ -159,8 +162,33 @@ init: function () {
                     .clearQueue().animate({ opacity: 0.5 });
             })
 
-        .delegate('.ss-thumb-list li', 'click', function (eve) {
+        .delegate('.ss-thumb-list li', 'click.ss', function (eve) {
                 that.setImageIndex($(this).prevAll().size());
+            })
+
+        .delegate('.ss-list li', 'unsetCurrent.ss', function (eve) {
+                var elem = $(this),
+                    scimg = elem.data('ScImage.ss');
+
+                scimg.entry.removeClass('ss-current');
+                scimg.thumb.removeClass('ss-current');
+                scimg.caption.hide('slide', { direction: "down" }, 'fast');
+
+                scimg.entry.animate({ opacity: 0.5 });
+                scimg.thumb.animate({ opacity: 0.5 });
+            })
+
+        .delegate('.ss-list li', 'setCurrent.ss', function (eve) {
+                var elem = $(this),
+                    scimg = elem.data('ScImage.ss');
+
+                // show caption
+                scimg.entry.addClass('ss-current');
+                scimg.thumb.addClass('ss-current');
+                scimg.caption.show('slide', { direction: "down" }, 'fast');
+
+                scimg.entry.animate({ opacity: 1 });
+                scimg.thumb.animate({ opacity: 1 });
             })
     ;
 },
@@ -222,7 +250,7 @@ addImage: function (img) {
         scimg.entry.append(bigImg);
     }
 
-    // this is wider than it needs to be... we don't care, but it can 
+    // this is wider than it needs to be... we don't care, but it can
     // probably be optimized.
     this.list.width(this.list.width() + scimg.entry.outerWidth());
     this.thumblist.width(this.thumblist.width() + scimg.thumb.outerWidth());
@@ -241,8 +269,6 @@ _center: function (container, entry, list) {
 setImageIndex: function (ii) {
     var scimg, oldscimg, offset, entry, width;
 
-    oldscimg = this.images[this.curImage];
-
     ii = Math.max(Math.min(this.images.length - 1, ii || 0), 0);
 
     if (ii === this.curImage) {     // no change
@@ -253,22 +279,12 @@ setImageIndex: function (ii) {
     scimg = this.images[this.curImage];
 
     // TODO all types of crazy effects
-    if (oldscimg) {
-        oldscimg.entry.removeClass('ss-current');
-        oldscimg.thumb.removeClass('ss-current');
-        oldscimg.caption.hide('slide', { direction: "down" }, 'fast');
-    }
+    oldscimg = this.list.find('.ss-current').trigger('unsetCurrent');
+    scimg.entry.trigger('setCurrent');
 
-    entry = scimg.entry;
-    entry.addClass('ss-current');
-    scimg.thumb.addClass('ss-current');
-
-
-    this._center(this.wrapper, entry, this.list);
+    this._center(this.wrapper, scimg.entry, this.list);
     this._center(this.bottom, scimg.thumb, this.thumblist);
 
-    // show caption
-    scimg.caption.show('slide', { direction: "down" }, 'fast');
 }
 
 };
