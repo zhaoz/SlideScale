@@ -1,12 +1,14 @@
 div.ss {
     position: relative;
     overflow: hidden;
+    border: 1px solid black;
+    padding: 2px;
 }
 
 div.ss .ss-list-wrapper {
     position: relative;
     overflow: hidden;
-    border: 1px solid black;
+    margin-bottom: 20px;
 }
 
 .ss ol.ss-list {
@@ -51,7 +53,6 @@ div.ss .ss-list-wrapper {
 
 .ss div.ss-bottom {
     clear: left;
-    border: 1px solid black;
     overflow: hidden;
     position: relative;
 }
