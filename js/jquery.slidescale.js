@@ -158,7 +158,26 @@ init: function () {
             })
         .delegate('.ss-button', 'mouseenter.ss', function (eve) {
                 $(this).addClass('hover')
-                    .clearQueue().animate({ opacity: 0.5 });
+                    .clearQueue().animate({ opacity: that.opts.opacity });
+            })
+
+        .delegate('ol li', 'mouseleave.ss', function (eve) {
+                var elem = $(this).addClass('hover');
+
+                if (elem.hasClass('ss-current')) {
+                    return;
+                }
+
+                elem.clearQueue().animate({ opacity: that.opts.opacity });
+            })
+        .delegate('ol li', 'mouseenter.ss', function (eve) {
+                var elem = $(this).addClass('hover');
+
+                if (elem.hasClass('ss-current')) {
+                    return;
+                }
+
+                elem.clearQueue().animate({ opacity: 1 });
             })
 
         .delegate('.ss-thumb-list li, .ss-list li', 'click.ss', function (eve) {
