@@ -161,7 +161,7 @@ init: function () {
                     .clearQueue().animate({ opacity: 0.5 });
             })
 
-        .delegate('.ss-thumb-list li', 'click.ss', function (eve) {
+        .delegate('.ss-thumb-list li, .ss-list li', 'click.ss', function (eve) {
                 that.setImageIndex($(this).prevAll().size());
             })
 
