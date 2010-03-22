@@ -94,6 +94,7 @@ div.ss .ss-list-wrapper {
     height: 100%;
     position: absolute;
     top: 0px;
+    left: 0px;
     margin: 0px;
     background-color: black;
 }
