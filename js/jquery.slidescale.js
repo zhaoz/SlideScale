@@ -138,10 +138,10 @@ init: function () {
                 $(c).trigger('prev');
             })
         .delegate('.ss-button', 'mouseout', function (eve) {
-                $(this).animate({ opacity: 0 });
+                $(this).clearQueue().animate({ opacity: 0 });
             })
         .delegate('.ss-button', 'mouseenter', function (eve) {
-                $(this).animate({ opacity: 0.5 });
+                $(this).clearQueue().animate({ opacity: 0.5 });
             });
 },
 
