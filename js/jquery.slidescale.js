@@ -2,6 +2,7 @@
  * jquery.slidescale.js
  * @author Ziling Zhao <zilingzhao@gmail.com>
  *
+ * FIXME IE8 Transparency currenty totally borked
  * FIXME in chrome, caption is glitching to the top and then showing up at the
  *      bottom
  */
@@ -21,18 +22,22 @@ $.fn.slidescale = function (options) {
 
 function ScImage(entry, options) {
     var img;
-    if ($.isPlainObject(entry)) {
-        options = $.extend(entry, options);
-        entry = null;
-    } else {
+    if (entry instanceof jQuery) {
         img = entry.find('img').remove();
         this.thumb = $('<li />', { html: img });
         this.caption = entry.find('p').remove();
 
         this.name = img.attr('src').match(pathrex)[1];
         this.entry = entry;
+    } else {
+        options = $.extend(entry, options);
+        entry = null;
     }
     $.extend(this, options || {}, ScImage.defaults);
+
+    if (typeof(this.text) !== "string") {
+        this.text = "";
+    }
 
     if (!this.thumb) {
         this.thumb = $('<li />', {
