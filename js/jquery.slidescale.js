@@ -45,7 +45,7 @@ function ScImage(entry, options) {
         this.entry = $('<li />').append(this.caption);
     }
 
-    this.image = null;
+    this.image = undefined;
 }
 
 ScImage.prototype = {
@@ -89,7 +89,8 @@ $.slidescale = function (container, options) {
         .find('.ss-button').css('opacity', 0.5);
 
     setTimeout(function () {
-            that.wrapper.find('.ss-button').animate({ opacity: 0 });
+            that.wrapper.find('.ss-button').not('.hover')
+                .animate({ opacity: 0 });
         }, 2000);
 
     this.thumblist = $("<ol />", { "class": "ss-thumb-list" });
@@ -138,10 +139,12 @@ init: function () {
                 $(c).trigger('prev');
             })
         .delegate('.ss-button', 'mouseout.ss', function (eve) {
-                $(this).clearQueue().animate({ opacity: 0 });
+                $(this).removeClass('hover')
+                    .clearQueue().animate({ opacity: 0 });
             })
         .delegate('.ss-button', 'mouseenter.ss', function (eve) {
-                $(this).clearQueue().animate({ opacity: 0.5 });
+                $(this).addClass('hover')
+                    .clearQueue().animate({ opacity: 0.5 });
             });
 },
 
