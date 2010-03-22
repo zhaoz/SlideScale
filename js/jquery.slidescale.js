@@ -1,6 +1,9 @@
 /**
  * jquery.slidescale.js
  * @author Ziling Zhao <zilingzhao@gmail.com>
+ *
+ * FIXME in chrome, caption is glitching to the top and then showing up at the
+ *      bottom
  */
 (function ($) {
 
@@ -104,7 +107,7 @@ $.slidescale = function (container, options) {
     setTimeout(function () {
             that.wrapper.find('.ss-button').not('.hover')
                 .animate({ opacity: 0 });
-        }, 2000);
+        }, 5000);
 
     this.thumblist = $("<ol />", { "class": "ss-thumb-list" });
 
@@ -307,13 +310,11 @@ setImageIndex: function (ii) {
     this.curImage = ii;
     scimg = this.images[this.curImage];
 
-    // TODO all types of crazy effects
     oldscimg = this.list.find('.ss-current').trigger('unsetCurrent');
     scimg.entry.trigger('setCurrent');
 
     this._center(this.wrapper, scimg.entry, this.list);
     this._center(this.bottom, scimg.thumb, this.thumblist);
-
 }
 
 };
