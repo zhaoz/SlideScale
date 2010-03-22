@@ -243,13 +243,18 @@ setImageIndex: function (ii) {
     // TODO all types of crazy effects
     if (oldscimg) {
         oldscimg.entry.removeClass('ss-current');
+        oldscimg.caption.hide('slide', { direction: "down" }, 'fast');
     }
 
     entry = scimg.entry;
     entry.addClass('ss-current');
 
+
     this._center(this.wrapper, entry, this.list);
     this._center(this.bottom, scimg.thumb, this.thumblist);
+
+    // show caption
+    scimg.caption.show('slide', { direction: "down" }, 'fast');
 }
 
 };

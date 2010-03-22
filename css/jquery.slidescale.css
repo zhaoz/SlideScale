@@ -41,6 +41,7 @@ div.ss .ss-list-wrapper {
     padding: 0.5em 0;
     color: white;
     font-weight: bold;
+    display: none;
 }
 
 .ss ol.ss-list li .ss-caption p {
