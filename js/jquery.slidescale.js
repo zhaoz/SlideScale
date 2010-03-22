@@ -24,7 +24,7 @@ function ScImage(entry, options) {
     } else {
         img = entry.find('img').remove();
         this.thumb = $('<li />', { html: img });
-        this.caption = entry.find('p');
+        this.caption = entry.find('p').remove();
 
         this.name = img.attr('src').match(pathrex)[1];
         this.entry = entry;
@@ -36,14 +36,22 @@ function ScImage(entry, options) {
             html: $('<img />', { src: [this.thumbpath, this.name].join("/") })
         });
     }
+
     if (!this.caption) {
-        this.caption = $('<p class="ss-caption"/>').text(this.text);
+        this.caption = $('<p />').text(this.text);
     }
+    this.caption = $('<div class="ss-caption" />').append(this.caption);
+
+    // add transparent box to caption
+    $("<div class='ss-trans-bg' />")
+        .css('opacity', 0.3)
+        .appendTo(this.caption);
 
     this.added = !!this.entry;
     if (!this.added) {
-        this.entry = $('<li />').append(this.caption);
+        this.entry = $('<li />');
     }
+    this.entry.append(this.caption);
 
     this.image = undefined;
 }
@@ -168,8 +176,7 @@ _initImages: function () {
     var that = this;
     this.container.find('ol.ss-list > li').each(function () {
             that.addImage($(this));
-        })
-        .find("p").addClass('ss-caption');
+        });
 },
 
 prevImg: function (eve) {

@@ -35,11 +35,17 @@ div.ss .ss-list-wrapper {
 .ss ol.ss-list li .ss-caption {
     position: absolute;
     bottom: 0px;
-    background: #999;
     margin: 0px;
     width: 100%;
     text-align: center;
     padding: 0.5em 0;
+    color: white;
+    font-weight: bold;
+}
+
+.ss ol.ss-list li .ss-caption p {
+    z-index: 1;
+    position: relative;
 }
 
 .ss div.ss-bottom {
@@ -74,6 +80,17 @@ div.ss .ss-list-wrapper {
 
 .ss .ss-list-wrapper .ss-next {
     background-image: url("../img/right_arrow.png");
+}
+
+.ss-trans-bg {
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    margin: 0px;
+    background-color: black;
 }
 
 .ss .ss-prev {
