@@ -166,9 +166,7 @@ die: function () {
 
 _constructBottom: function (thumblist) {
     return $('<div class="ss-bottom" />')
-        .append('<div class="ss-prev ss-button">&lt;</div>')
         .append(thumblist)
-        .append('<div class="ss-next ss-button">&gt;</div>')
         .append('<br class="clear" />');
 },
 
