@@ -129,20 +129,28 @@ init: function () {
         c = this.container;
 
     this.container
-        .bind('next', $.proxy(this, 'nextImg'))
-        .bind('prev', $.proxy(this, 'prevImg'))
-        .delegate('.ss-list-wrapper .ss-next', 'click', function (eve) {
+        .bind('next.ss', $.proxy(this, 'nextImg'))
+        .bind('prev.ss', $.proxy(this, 'prevImg'))
+        .delegate('.ss-list-wrapper .ss-next', 'click.ss', function (eve) {
                 $(c).trigger('next');
             })
-        .delegate('.ss-list-wrapper .ss-prev', 'click', function (eve) {
+        .delegate('.ss-list-wrapper .ss-prev', 'click.ss', function (eve) {
                 $(c).trigger('prev');
             })
-        .delegate('.ss-button', 'mouseout', function (eve) {
+        .delegate('.ss-button', 'mouseout.ss', function (eve) {
                 $(this).clearQueue().animate({ opacity: 0 });
             })
-        .delegate('.ss-button', 'mouseenter', function (eve) {
+        .delegate('.ss-button', 'mouseenter.ss', function (eve) {
                 $(this).clearQueue().animate({ opacity: 0.5 });
             });
+},
+
+die: function () {
+    this.container
+        .unbind('.ss')
+
+        // XXX does * worK?
+        .undelegate('*', '.ss');
 },
 
 _constructBottom: function (thumblist) {
