@@ -26,7 +26,6 @@ div.ss .ss-list-wrapper {
     float: left;
     height: 100%;
     position: relative;
-    min-width: 200px;
 }
 
 .ss li.ss-current {
@@ -126,10 +125,9 @@ div.ss .ss-list-wrapper {
     list-style-type: none;
     padding: 0px;
     margin: 0px;
-    width: 150%;
 }
 
-.ss ol.ss-thumb-list * {
+.ss ol.ss-thumb-list li {
     float: left;
 }
 
