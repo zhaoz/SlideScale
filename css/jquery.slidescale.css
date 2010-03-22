@@ -59,6 +59,7 @@ div.ss .ss-list-wrapper {
 
 .ss .ss-thumb-list li {
     position: relative;
+    margin: 0px 2px;
 }
 
 .ss div.ss-list-wrapper .ss-button {
