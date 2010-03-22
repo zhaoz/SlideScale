@@ -78,6 +78,10 @@ $.slidescale = function (container, options) {
     this.container = container
         .addClass('ss')
         .width(o.gallery_width);
+
+    $('<div class="ss-wrapper" />').css('opacity', 0.5)
+        .appendTo(container);
+
     this.list = container.children('ol');
     if (!this.list.size()) {
         this.list = $('<ol />').appendTo(container);
@@ -251,11 +255,13 @@ setImageIndex: function (ii) {
     // TODO all types of crazy effects
     if (oldscimg) {
         oldscimg.entry.removeClass('ss-current');
+        oldscimg.thumb.removeClass('ss-current');
         oldscimg.caption.hide('slide', { direction: "down" }, 'fast');
     }
 
     entry = scimg.entry;
     entry.addClass('ss-current');
+    scimg.thumb.addClass('ss-current');
 
 
     this._center(this.wrapper, entry, this.list);
