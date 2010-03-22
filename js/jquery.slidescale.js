@@ -19,7 +19,7 @@ $.fn.slidescale = function (options) {
 function ScImage(entry, options) {
     var img;
     if ($.isPlainObject(entry)) {
-        options = entry;
+        options = $.extend(entry, options);
         entry = null;
     } else {
         img = entry.find('img').remove();
