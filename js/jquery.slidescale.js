@@ -125,7 +125,10 @@ $.slidescale = function (container, options) {
     this.curImage = -1;
     this.init();
 
-    this.setImageIndex(o.startingIndex);
+    // set imageindex after image has loaded
+    this.images[o.startingIndex].entry.find('img').one('load', function () {
+            that.setImageIndex(o.startingIndex);
+        });
 };
 
 $.slidescale.defaults = {
