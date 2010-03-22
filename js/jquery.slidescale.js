@@ -51,8 +51,8 @@ function ScImage(entry, options) {
         this.entry = $('<li />');
     }
     this.entry.append(this.caption);
-    this.entry.css('opacity', 0.5);
-    this.thumb.css('opacity', 0.5);
+    this.entry.css('opacity', this.opacity);
+    this.thumb.css('opacity', this.opacity);
 
     this.entry.data("ScImage.ss", this);
 
@@ -69,6 +69,7 @@ getImage: function () {
 
 ScImage.defaults = {
     photopath: "./img/photos",
+    opacity: 0.7,
     thumbpath: "./img/thumbs"
 };
 
@@ -81,9 +82,6 @@ $.slidescale = function (container, options) {
     this.container = container
         .addClass('ss')
         .width(o.gallery_width);
-
-    // $('<div class="ss-wrapper" />').css('opacity', 0.5)
-        // .appendTo(container);
 
     this.list = container.children('ol');
     if (!this.list.size()) {
@@ -133,6 +131,7 @@ $.slidescale = function (container, options) {
 $.slidescale.defaults = {
     gallery_height: 300,
     gallery_width: 800,
+    opacity: 0.5,
     thumb_height: 75,
     startingIndex: 0,                // index of images to start on
     photopath: "./img/photos",
@@ -174,8 +173,8 @@ init: function () {
                 scimg.thumb.removeClass('ss-current');
                 scimg.caption.hide('slide', { direction: "down" }, 'fast');
 
-                scimg.entry.animate({ opacity: 0.5 });
-                scimg.thumb.animate({ opacity: 0.5 });
+                scimg.entry.animate({ opacity: that.opts.opacity });
+                scimg.thumb.animate({ opacity: that.opts.opacity });
             })
 
         .delegate('.ss-list li', 'setCurrent.ss', function (eve) {
@@ -232,8 +231,10 @@ nextImg: function (eve) {
  * Take an image hash, img.url, img.text, add to images list
  */
 addImage: function (img) {
-    var scimg = new ScImage(img,
-            { photopath: this.photopath, thumbpath: this.thumbpath }),
+    var scimg = new ScImage(img, {
+            opacity: this.opts.opacity,
+            photopath: this.opts.photopath,
+            thumbpath: this.opts.thumbpath }),
         bigImg;
 
     this.images.push(scimg);
