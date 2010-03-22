@@ -153,7 +153,12 @@ init: function () {
         .delegate('.ss-button', 'mouseenter.ss', function (eve) {
                 $(this).addClass('hover')
                     .clearQueue().animate({ opacity: 0.5 });
-            });
+            })
+
+        .delegate('.ss-thumb-list li', 'click', function (eve) {
+                that.setImageIndex($(this).prevAll().size());
+            })
+    ;
 },
 
 die: function () {
@@ -210,6 +215,8 @@ addImage: function (img) {
         scimg.entry.append(bigImg);
     }
 
+    // this is wider than it needs to be... we don't care, but it can 
+    // probably be optimized.
     this.list.width(this.list.width() + scimg.entry.outerWidth());
     this.thumblist.width(this.thumblist.width() + scimg.thumb.outerWidth());
 },
