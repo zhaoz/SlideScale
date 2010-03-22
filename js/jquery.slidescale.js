@@ -50,11 +50,11 @@ function ScImage(entry, options) {
     if (!this.added) {
         this.entry = $('<li />');
     }
-    this.entry.append(this.caption);
-    this.entry.css('opacity', this.opacity);
-    this.thumb.css('opacity', this.opacity);
 
-    this.entry.data("ScImage.ss", this);
+    this.thumb.css('opacity', this.opacity);
+    this.entry.append(this.caption)
+        .css('opacity', this.opacity)
+        .data("ScImage.ss", this);
 
     this.image = undefined;
 }
@@ -227,7 +227,7 @@ _constructBottom: function (thumblist) {
 
 _initImages: function () {
     var that = this;
-    this.container.find('ol.ss-list > li').each(function () {
+    this.container.find('ol.ss-list > li').remove().each(function () {
             that.addImage($(this));
         });
 },
@@ -254,26 +254,32 @@ addImage: function (img) {
             opacity: this.opts.opacity,
             photopath: this.opts.photopath,
             thumbpath: this.opts.thumbpath }),
-        bigImg;
+        bigImg,
+        that = this;
 
     this.images.push(scimg);
 
-    if (!scimg.added) {
-        this.list.append(scimg.entry);
-    }
+    this.list.append(scimg.entry);
 
     this.thumblist.append(scimg.thumb);
 
     // TODO need to check index and load if needed
     if (!scimg.image) {
-        bigImg = scimg.getImage();
+        bigImg = scimg.getImage().one('load', function () {
+            that.list.width(that.list.width() +
+                scimg.entry.outerWidth(true));
+        });
         scimg.entry.append(bigImg);
     }
 
-    // this is wider than it needs to be... we don't care, but it can
-    // probably be optimized.
-    this.list.width(this.list.width() + scimg.entry.outerWidth());
-    this.thumblist.width(this.thumblist.width() + scimg.thumb.outerWidth());
+    if (!scimg.added) {
+        scimg.thumb.find('img').one('load', function () {
+            that.thumblist.width(that.thumblist.width() +
+                scimg.thumb.outerWidth(true));
+        });
+    }
+
+    scimg.added = true;
 },
 
 _center: function (container, entry, list) {
