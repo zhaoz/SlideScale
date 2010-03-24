@@ -47,6 +47,7 @@ div.ss .ss-list-wrapper {
 
 .ss ol.ss-list li .ss-caption p {
     z-index: 1;
+    position: relative;
 }
 
 .ss div.ss-bottom {
