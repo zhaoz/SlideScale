@@ -98,6 +98,9 @@ div.ss .ss-list-wrapper {
     left: 0px;
     margin: 0px;
     background-color: black;
+    opacity: 0.3;
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+    filter: alpha(opacity=30);
 }
 
 .ss .ss-prev {
