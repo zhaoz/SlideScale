@@ -51,8 +51,7 @@ function ScImage(entry, options) {
 
     // add transparent box to caption
     $("<div class='ss-trans-bg' />")
-        .css('opacity', 0.3)
-        .appendTo(this.caption);
+        .prependTo(this.caption);
 
     this.added = !!this.entry;
     if (!this.added) {
@@ -137,16 +136,6 @@ $.slidescale = function (container, options) {
     this.images[o.startingIndex].entry.find('img').one('load', function () {
             that.setImageIndex(o.startingIndex);
         });
-};
-
-$.slidescale.defaults = {
-    gallery_height: 300,
-    gallery_width: 800,
-    opacity: 0.5,
-    thumb_height: 75,
-    startingIndex: 0,                // index of images to start on
-    photopath: "./img/photos",
-    thumbpath: "./img/thumbs"
 };
 
 $.slidescale.prototype = {
@@ -280,7 +269,7 @@ addImage: function (img) {
             that.list.width(that.list.width() +
                 scimg.entry.outerWidth(true));
         });
-        scimg.entry.append(bigImg);
+        scimg.entry.prepend(bigImg);
     }
 
     if (!scimg.added) {
@@ -322,6 +311,16 @@ setImageIndex: function (ii) {
     this._center(this.bottom, scimg.thumb, this.thumblist);
 }
 
+};
+
+$.slidescale.defaults = {
+    gallery_height: 300,
+    gallery_width: 800,
+    opacity: 0.5,
+    thumb_height: 75,
+    startingIndex: 0,                // index of images to start on
+    photopath: "./img/photos",
+    thumbpath: "./img/thumbs"
 };
 
 }(jQuery));
