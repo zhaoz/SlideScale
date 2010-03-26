@@ -3,6 +3,7 @@
  * @author Ziling Zhao <zilingzhao@gmail.com>
  *
  * FIXME IE8 Transparency currenty totally borked
+ * TODO incremental photo loading
  */
 (function ($) {
 
@@ -51,6 +52,10 @@ function ScImage(entry, options) {
 
     if (this.caption) {
         this.caption = $('<div class="ss-caption" />').append(this.caption);
+
+        if (this.caption_link) {
+            this.caption.wrapInner($('<a />', { href: this.caption_link }));
+        }
 
         // add transparent box to caption
         $("<div class='ss-trans-bg' />")
@@ -326,6 +331,7 @@ ScImage.defaults = {
     photodir: "./img/photos",
     opacity: 0.7,
     thumbdir: "./img/thumbs",
+    caption_link: undefined,
     thumbpath: undefined,
     photopath: undefined
 };
