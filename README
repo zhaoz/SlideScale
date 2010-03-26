@@ -14,8 +14,10 @@ SlideScale Options
 ScImage Options
 ---------------
 name - image name to use for finding image in thumbdir and photodir
-photopath - overrides photodir finding with full path for photo
-thumbpath - overrides photodir finding with full path for image
+photo_path - overrides photodir finding with full path for photo
+thumb_path - overrides photodir finding with full path for image
+caption_link - link for the caption to go to when clicked
+photo_link - link for when the photo is clicked
 
 Examples
 --------

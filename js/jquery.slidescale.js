@@ -76,16 +76,16 @@ ScImage.prototype = {
 getThumb: function () {
     this.thumb = $('<li />', {
         html: $('<img />', {
-            src: this.thumbpath ? this.thumbpath :
-                [this.thumbdir, this.name].join("/")
+            src: this.thumb_path ? this.thumb_path :
+                [this.thumb_dir, this.name].join("/")
         })
     });
     return this.thumb;
 },
 getImage: function () {
     this.image = $('<img />', { "class": "ss-photo",
-            src: this.photopath ? this.photopath :
-                [this.photodir, this.name].join("/") });
+            src: this.photo_path ? this.photo_path :
+                [this.photo_dir, this.name].join("/") });
     return this.image;
 }
 };
@@ -204,8 +204,8 @@ init: function () {
             })
         .delegate('.ss-list li', 'changeLocation.ss', function (eve) {
                 var scimg = $(this).data('ScImage.ss');
-                if (scimg.image_link) {
-                    location.href = scimg.image_link;
+                if (scimg.photo_link) {
+                    location.href = scimg.photo_link;
                 }
             })
 
@@ -281,8 +281,8 @@ nextImg: function (eve) {
 addImage: function (img) {
     var scimg = new ScImage(img, {
             opacity: this.opts.opacity,
-            photodir: this.opts.photodir,
-            thumbdir: this.opts.thumbdir }),
+            photo_dir: this.opts.photo_dir,
+            thumb_dir: this.opts.thumb_dir }),
         bigImg,
         that = this;
 
@@ -345,13 +345,13 @@ setImageIndex: function (ii) {
 };
 
 ScImage.defaults = {
-    photodir: "./img/photos",
+    photo_dir: "./img/photos",
     opacity: 0.7,
-    thumbdir: "./img/thumbs",
-    image_link: undefined,
+    thumb_dir: "./img/thumbs",
+    photo_link: undefined,
     caption_link: undefined,
-    thumbpath: undefined,
-    photopath: undefined
+    thumb_path: undefined,
+    photo_path: undefined
 };
 
 
@@ -361,8 +361,8 @@ $.slidescale.defaults = {
     opacity: 0.5,
     thumb_height: 75,
     startingIndex: 0,                // index of images to start on
-    photodir: "./img/photos",
-    thumbdir: "./img/thumbs"
+    photo_dir: "./img/photos",
+    thumb_dir: "./img/thumbs"
 };
 
 }(jQuery));
