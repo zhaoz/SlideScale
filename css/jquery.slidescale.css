@@ -2,12 +2,14 @@ div.ss {
     position: relative;
     overflow: hidden;
     background: black;
+    z-index: 0;
 }
 
 div.ss .ss-list-wrapper {
     position: relative;
     overflow: hidden;
     margin-bottom: 20px;
+    z-index: 0;
 }
 
 .ss ol.ss-list {
@@ -18,6 +20,7 @@ div.ss .ss-list-wrapper {
     width: 150%;
     top: 0px;
     overflow: hidden;
+    z-index: 0;
 }
 
 .ss ol.ss-list li {
@@ -26,6 +29,7 @@ div.ss .ss-list-wrapper {
     float: left;
     height: 100%;
     position: relative;
+    z-index: 0;
 }
 
 .ss li.ss-current {
@@ -43,6 +47,7 @@ div.ss .ss-list-wrapper {
     color: white;
     font-weight: bold;
     display: none;
+    z-index: 0;
 }
 
 .ss ol.ss-list li .ss-caption p {

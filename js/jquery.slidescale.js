@@ -39,7 +39,7 @@ function ScImage(entry, options) {
 
     if (!this.thumb) {
         this.thumb = $('<li />', {
-            html: $('<img />', { src: [this.thumbpath, this.name].join("/") })
+            html: $('<img />', { src: [this.thumbdir, this.name].join("/") })
         });
     }
     if (!this.caption) {
@@ -67,15 +67,9 @@ function ScImage(entry, options) {
 ScImage.prototype = {
 getImage: function () {
     this.image = $('<img />', { "class": "ss-photo",
-            src: [this.photopath, this.name].join("/") });
+            src: [this.photodir, this.name].join("/") });
     return this.image;
 }
-};
-
-ScImage.defaults = {
-    photopath: "./img/photos",
-    opacity: 0.7,
-    thumbpath: "./img/thumbs"
 };
 
 $.slidescale = function (container, options) {
@@ -250,8 +244,8 @@ nextImg: function (eve) {
 addImage: function (img) {
     var scimg = new ScImage(img, {
             opacity: this.opts.opacity,
-            photopath: this.opts.photopath,
-            thumbpath: this.opts.thumbpath }),
+            photodir: this.opts.photodir,
+            thumbdir: this.opts.thumbdir }),
         bigImg,
         that = this;
 
@@ -311,14 +305,21 @@ setImageIndex: function (ii) {
 
 };
 
+ScImage.defaults = {
+    photodir: "./img/photos",
+    opacity: 0.7,
+    thumbdir: "./img/thumbs"
+};
+
+
 $.slidescale.defaults = {
     gallery_height: 300,
     gallery_width: 800,
     opacity: 0.5,
     thumb_height: 75,
     startingIndex: 0,                // index of images to start on
-    photopath: "./img/photos",
-    thumbpath: "./img/thumbs"
+    photodir: "./img/photos",
+    thumbdir: "./img/thumbs"
 };
 
 }(jQuery));
