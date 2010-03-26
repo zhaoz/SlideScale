@@ -194,12 +194,27 @@ init: function () {
                 that.setImageIndex($(this).prevAll().size());
             })
 
+        .delegate('.ss-list li', 'click.ss', function (eve) {
+                var elem = $(this), scimg;
+                console.log("ss list clicked");
+                if (elem.hasClass('ss-centered')) {
+                    console.log("has class");
+                    elem.trigger('changeLocation');
+                }
+            })
+        .delegate('.ss-list li', 'changeLocation.ss', function (eve) {
+                var scimg = $(this).data('ScImage.ss');
+                if (scimg.image_link) {
+                    location.href = scimg.image_link;
+                }
+            })
+
         .delegate('.ss-list li', 'unsetCurrent.ss', function (eve) {
                 var elem = $(this),
                     scimg = elem.data('ScImage.ss');
 
-                scimg.entry.removeClass('ss-current');
-                scimg.thumb.removeClass('ss-current');
+                scimg.entry.removeClass('ss-current ss-centered');
+                scimg.thumb.removeClass('ss-current ss-centered');
                 if (scimg.caption) {
                     scimg.caption.hide('slide', { direction: "down" }, 'fast');
                 }
@@ -303,7 +318,9 @@ _center: function (container, entry, list) {
     offset += container.innerWidth() / 2;
     offset -= entry.outerWidth() / 2;
 
-    list.animate({left: offset});
+    list.animate({left: offset}, function () {
+                entry.addClass('ss-centered');
+            });
 },
 
 setImageIndex: function (ii) {
@@ -331,6 +348,7 @@ ScImage.defaults = {
     photodir: "./img/photos",
     opacity: 0.7,
     thumbdir: "./img/thumbs",
+    image_link: undefined,
     caption_link: undefined,
     thumbpath: undefined,
     photopath: undefined
