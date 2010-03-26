@@ -3,8 +3,6 @@
  * @author Ziling Zhao <zilingzhao@gmail.com>
  *
  * FIXME IE8 Transparency currenty totally borked
- * FIXME in chrome, caption is glitching to the top and then showing up at the
- *      bottom
  */
 (function ($) {
 
