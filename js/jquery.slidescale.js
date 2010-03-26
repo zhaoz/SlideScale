@@ -40,22 +40,27 @@ function ScImage(entry, options) {
     if (!this.thumb) {
         this.getThumb();
     }
-    if (!this.caption) {
+    if (this.text && !this.caption) {
         this.caption = $('<p />').text(this.text);
     }
-    this.caption = $('<div class="ss-caption" />').append(this.caption);
-
-    // add transparent box to caption
-    $("<div class='ss-trans-bg' />")
-        .prependTo(this.caption);
 
     this.added = !!this.entry;
     if (!this.added) {
         this.entry = $('<li />');
     }
 
+    if (this.caption) {
+        this.caption = $('<div class="ss-caption" />').append(this.caption);
+
+        // add transparent box to caption
+        $("<div class='ss-trans-bg' />")
+            .prependTo(this.caption);
+
+        this.entry.append(this.caption)
+    }
+
     this.thumb.css('opacity', this.opacity);
-    this.entry.append(this.caption)
+    this.entry
         .css('opacity', this.opacity)
         .data("ScImage.ss", this);
 
@@ -190,7 +195,9 @@ init: function () {
 
                 scimg.entry.removeClass('ss-current');
                 scimg.thumb.removeClass('ss-current');
-                scimg.caption.hide('slide', { direction: "down" }, 'fast');
+                if (scimg.caption) {
+                    scimg.caption.hide('slide', { direction: "down" }, 'fast');
+                }
 
                 scimg.entry.animate({ opacity: that.opts.opacity });
                 scimg.thumb.animate({ opacity: that.opts.opacity });
@@ -200,10 +207,12 @@ init: function () {
                 var elem = $(this),
                     scimg = elem.data('ScImage.ss');
 
-                // show caption
                 scimg.entry.addClass('ss-current');
                 scimg.thumb.addClass('ss-current');
-                scimg.caption.show('slide', { direction: "down" }, 'fast');
+
+                if (scimg.caption) {
+                    scimg.caption.show('slide', { direction: "down" }, 'fast');
+                }
 
                 scimg.entry.animate({ opacity: 1 });
                 scimg.thumb.animate({ opacity: 1 });
