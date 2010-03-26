@@ -8,15 +8,35 @@ Scalable gallery image viewer, has the ability to take images already on page,
 a list of urls passed in, or both to construct a gallery. Uses incremental
 preloading to preload images to save bandwidth.
 
-OPTIONS
--------
+SlideScale Options
+------------------
 
-TODO
+ScImage Options
+---------------
+name - image name to use for finding image in thumbdir and photodir
+photopath - overrides photodir finding with full path for photo
+thumbpath - overrides photodir finding with full path for image
 
 Examples
 --------
 
-TODO
+    $('#gallery').slidescale({
+        images: [
+            {name: "sea-turtle.jpg",
+                text: "Watch, the mighty Sea Turtle!"},
+            {name: "yellow-fish.jpg",
+                text: "Fish may want to be yellow too"}
+        ]
+    });
+
+    $('#gallery').slidescale({
+        images: [
+            { photopath: "http://imagepath.com/sea-turtle.jpg",
+              thumbpath: "http://imagepath.com/thumb/sea-turtle.jpg",
+              text: "Watch, the mighty Sea Turtle!"}
+        ]
+    });
+
 
 Author
 ------

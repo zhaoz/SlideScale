@@ -38,9 +38,7 @@ function ScImage(entry, options) {
     }
 
     if (!this.thumb) {
-        this.thumb = $('<li />', {
-            html: $('<img />', { src: [this.thumbdir, this.name].join("/") })
-        });
+        this.getThumb();
     }
     if (!this.caption) {
         this.caption = $('<p />').text(this.text);
@@ -65,9 +63,19 @@ function ScImage(entry, options) {
 }
 
 ScImage.prototype = {
+getThumb: function () {
+    this.thumb = $('<li />', {
+        html: $('<img />', {
+            src: this.thumbpath ? this.thumbpath :
+                [this.thumbdir, this.name].join("/")
+        })
+    });
+    return this.thumb;
+},
 getImage: function () {
     this.image = $('<img />', { "class": "ss-photo",
-            src: [this.photodir, this.name].join("/") });
+            src: this.photopath ? this.photopath :
+                [this.photodir, this.name].join("/") });
     return this.image;
 }
 };
@@ -308,7 +316,9 @@ setImageIndex: function (ii) {
 ScImage.defaults = {
     photodir: "./img/photos",
     opacity: 0.7,
-    thumbdir: "./img/thumbs"
+    thumbdir: "./img/thumbs",
+    thumbpath: undefined,
+    photopath: undefined
 };
 
 
