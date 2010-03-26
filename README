@@ -1,0 +1,24 @@
+SlideScale
+==========
+
+DESCRIPTION
+-----------
+
+Scalable gallery image viewer, has the ability to take images already on page,
+a list of urls passed in, or both to construct a gallery. Uses incremental
+preloading to preload images to save bandwidth.
+
+OPTIONS
+-------
+
+TODO
+
+Examples
+--------
+
+TODO
+
+Author
+------
+Ziling Zhao <zilingzhao@gmail.com>
+
