@@ -358,7 +358,7 @@ _center: function (container, entry, list) {
 },
 
 setImageIndex: function (ii) {
-    var scimg, oldscimg, offset, entry, width;
+    var scimg, oldscimg, offset, entry, width, loadTop;
 
     ii = Math.max(Math.min(this.images.length - 1, ii || 0), 0);
 
@@ -371,6 +371,14 @@ setImageIndex: function (ii) {
 
     oldscimg = this.list.find('.ss-current').trigger('unsetCurrent');
     scimg.entry.trigger('setCurrent');
+
+
+    loadTop = Math.min(this.curImage + this.opts.load_num, this.images.length);
+    if (loadTop > this.loadedPhotos.high) {
+        for (ii = this.loadedPhotos.high; ii < loadTop; ii++) {
+            this.loadEntry(this.images[ii]);
+        }
+    }
 
     this._center(this.wrapper, scimg.entry, this.list);
     this._center(this.bottom, scimg.getThumb(), this.thumblist);
