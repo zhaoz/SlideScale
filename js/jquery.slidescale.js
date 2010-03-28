@@ -336,7 +336,9 @@ addImage: function (img) {
 
     this.list.append(scimg.entry);
 
-    this.loadThumb(scimg);
+    if (this.images.length - 1 < this.curImage + o.load_thumb_num) {
+        this.loadThumb(scimg);
+    }
 
     if (this.images.length - 1 < this.curImage + o.load_num) {
         this.loadEntry(scimg);
@@ -358,7 +360,7 @@ _center: function (container, entry, list) {
 },
 
 setImageIndex: function (ii) {
-    var scimg, oldscimg, offset, entry, width, loadTop;
+    var scimg, oldscimg, offset, entry, width, loadTop, loadThumbTop;
 
     ii = Math.max(Math.min(this.images.length - 1, ii || 0), 0);
 
@@ -377,6 +379,14 @@ setImageIndex: function (ii) {
     if (loadTop > this.loadedPhotos.high) {
         for (ii = this.loadedPhotos.high; ii < loadTop; ii++) {
             this.loadEntry(this.images[ii]);
+        }
+    }
+
+    loadThumbTop = Math.min(this.curImage + this.opts.load_thumb_num,
+            this.images.length);
+    if (loadThumbTop > this.loadedThumbs.high) {
+        for (ii = this.loadedThumbs.high; ii < loadThumbTop; ii++) {
+            this.loadThumb(this.images[ii]);
         }
     }
 
