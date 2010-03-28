@@ -354,13 +354,14 @@ _center: function (container, entry, list) {
     offset += container.innerWidth() / 2;
     offset -= entry.outerWidth() / 2;
 
-    list.animate({left: offset}, function () {
+    list.clearQueue().animate({left: offset}, function () {
                 entry.addClass('ss-centered');
             });
 },
 
 setImageIndex: function (ii) {
-    var scimg, oldscimg, offset, entry, width, loadTop, loadThumbTop;
+    var scimg, oldscimg, offset, entry, width, loadTop, loadThumbTop,
+        that = this;
 
     ii = Math.max(Math.min(this.images.length - 1, ii || 0), 0);
 
@@ -375,23 +376,31 @@ setImageIndex: function (ii) {
     scimg.entry.trigger('setCurrent');
 
 
-    loadTop = Math.min(this.curImage + this.opts.load_num, this.images.length);
-    if (loadTop > this.loadedPhotos.high) {
-        for (ii = this.loadedPhotos.high; ii < loadTop; ii++) {
-            this.loadEntry(this.images[ii]);
-        }
-    }
-
-    loadThumbTop = Math.min(this.curImage + this.opts.load_thumb_num,
-            this.images.length);
-    if (loadThumbTop > this.loadedThumbs.high) {
-        for (ii = this.loadedThumbs.high; ii < loadThumbTop; ii++) {
-            this.loadThumb(this.images[ii]);
-        }
-    }
-
     this._center(this.wrapper, scimg.entry, this.list);
+    loadTop = Math.min(this.curImage + this.opts.load_num +
+            this.opts.preload_num, this.images.length);
+    if (loadTop > this.loadedPhotos.high) {
+        this.list.queue(function (n) {
+            var ii;
+            for (ii = that.loadedPhotos.high; ii < loadTop; ii++) {
+                that.loadEntry(that.images[ii]);
+            }
+            n();
+        });
+    }
+
     this._center(this.bottom, scimg.getThumb(), this.thumblist);
+    loadThumbTop = Math.min(this.curImage + this.opts.load_thumb_num +
+            this.opts.preload_num, this.images.length);
+    if (loadThumbTop > this.loadedThumbs.high) {
+        this.thumblist.queue(function (n) {
+            var ii;
+            for (ii = that.loadedThumbs.high; ii < loadThumbTop; ii++) {
+                that.loadThumb(that.images[ii]);
+            }
+            n();
+        });
+    }
 }
 
 };
@@ -412,6 +421,7 @@ $.slidescale.defaults = {
     gallery_width: 800,
     opacity: 0.5,
     load_num: 7,
+    preload_num: 5,
     load_thumb_num: 10,
     thumb_height: 75,
     startingIndex: 0,                // index of images to start on
