@@ -21,18 +21,18 @@ $.fn.slidescale = function (options) {
 
 function ScImage(entry, options) {
     var img;
+    $.extend(this, ScImage.defaults, options || {});
     if (entry instanceof jQuery) {
         img = entry.find('img').remove();
-        this.thumb = $('<li />', { html: img });
+        this.thumb = $('<li />', { html: img }).css('opacity', this.opacity);
         this.caption = entry.find('p').remove();
 
         this.name = img.attr('src').match(pathrex)[1];
         this.entry = entry;
     } else {
-        options = $.extend(entry, options);
+        options = $.extend(this, entry);
         entry = null;
     }
-    $.extend(this, options || {}, ScImage.defaults);
 
     if (typeof(this.text) !== "string") {
         this.text = "";
@@ -72,12 +72,11 @@ ScImage.prototype = {
 getThumb: function () {
     if (!this.thumb) {
         this.thumb = $('<li />', {
-            opacity: this.opacity,
             html: $('<img />', {
                 src: this.thumb_path ? this.thumb_path :
                     [this.thumb_dir, this.name].join("/")
             })
-        });
+        }).css('opacity', this.opacity);
     }
     return this.thumb;
 },
@@ -124,7 +123,7 @@ $.slidescale = function (container, options) {
         .append('<div class="ss-prev ss-button" />')
         .append('<div class="ss-next ss-button" />')
         .appendTo(container)
-        .find('.ss-button').css('opacity', 0.5);
+        .find('.ss-button').css('opacity', o.opacity);
 
     setTimeout(function () {
             that.wrapper.find('.ss-button').not('.hover')
@@ -217,9 +216,7 @@ init: function () {
 
         .delegate('.ss-list li', 'click.ss', function (eve) {
                 var elem = $(this), scimg;
-                console.log("ss list clicked");
                 if (elem.hasClass('ss-centered')) {
-                    console.log("has class");
                     elem.trigger('changeLocation');
                 }
             })
@@ -240,8 +237,8 @@ init: function () {
                     scimg.caption.hide('slide', { direction: "down" }, 'fast');
                 }
 
-                scimg.entry.animate({ opacity: that.opts.opacity });
-                scimg.getThumb().animate({ opacity: that.opts.opacity });
+                scimg.entry.animate({ opacity: scimg.opacity });
+                scimg.getThumb().animate({ opacity: scimg.opacity });
             })
 
         .delegate('.ss-list li', 'setCurrent.ss', function (eve) {
@@ -326,7 +323,6 @@ loadThumb: function (scimg) {
  */
 addImage: function (img) {
     var scimg = new ScImage(img, {
-            opacity: this.opts.opacity,
             photo_dir: this.opts.photo_dir,
             thumb_dir: this.opts.thumb_dir }),
         o = this.opts,
@@ -407,7 +403,7 @@ setImageIndex: function (ii) {
 
 ScImage.defaults = {
     photo_dir: "./img/photos",
-    opacity: 0.7,
+    opacity: 0.5,
     thumb_dir: "./img/thumbs",
     photo_link: undefined,
     caption_link: undefined,
