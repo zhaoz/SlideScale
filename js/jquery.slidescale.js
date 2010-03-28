@@ -142,10 +142,13 @@ $.slidescale = function (container, options) {
     this.curImage = -1;
     this.init();
 
-    // set imageindex after image has loaded
-    this.images[o.startingIndex].entry.find('img').one('load', function () {
-            that.setImageIndex(o.startingIndex);
-        });
+    // startingINdex only makes sense if we have that to start on
+    if (this.images.length > o.startingIndex) {
+        // set imageindex after image has loaded
+        this.images[o.startingIndex].entry.find('img').one('load', function () {
+                that.setImageIndex(o.startingIndex);
+            });
+    }
 };
 
 $.slidescale.prototype = {
