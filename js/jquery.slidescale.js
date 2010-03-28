@@ -297,14 +297,28 @@ nextImg: function (eve) {
 },
 
 loadEntry: function (scimg) {
-    scimg.loadImage();
+    var that = this;
 
+    scimg.loadImage();
     scimg.image.one('load', function () {
         that.list.width(that.list.width() +
             scimg.entry.outerWidth(true));
     });
 
     this.loadedPhotos.high++;
+},
+
+loadThumb: function (scimg) {
+    var that = this, 
+        thumb = scimg.getThumb();
+
+    this.thumblist.append(thumb);
+    this.loadedThumbs.high++;
+
+    thumb.find('img').one('load', function () {
+        that.thumblist.width(that.thumblist.width() +
+            scimg.getThumb().outerWidth(true));
+    });
 },
 
 /**
@@ -322,18 +336,10 @@ addImage: function (img) {
 
     this.list.append(scimg.entry);
 
-    this.thumblist.append(scimg.getThumb());
-    this.loadedThumbs.high++;
+    this.loadThumb(scimg);
 
     if (this.images.length - 1 < this.curImage + o.load_num) {
         this.loadEntry(scimg);
-    }
-
-    if (!scimg.added) {
-        scimg.getThumb().find('img').one('load', function () {
-            that.thumblist.width(that.thumblist.width() +
-                scimg.getThumb().outerWidth(true));
-        });
     }
 
     scimg.added = true;
