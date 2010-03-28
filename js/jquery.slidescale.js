@@ -88,6 +88,13 @@ getImage: function () {
                     [this.photo_dir, this.name].join("/") });
     }
     return this.image;
+},
+loadImage: function () {
+    var that = this,
+        img = this.getImage();
+
+    this.entry.prepend(img);
+    this.entry.addClass('ss-loaded');
 }
 };
 
@@ -131,6 +138,17 @@ $.slidescale = function (container, options) {
 
     this.images = [];
 
+    this.loadedPhotos = {
+        low: 0,
+        high: 0
+    };
+    this.loadedThumbs = {
+        low: 0,
+        high: 0
+    };
+
+    this.curImage = -1;
+
     this._initImages();
 
     if (o.images) {
@@ -140,7 +158,6 @@ $.slidescale = function (container, options) {
         }
     }
 
-    this.curImage = -1;
     this.init();
 
     // startingINdex only makes sense if we have that to start on
@@ -218,13 +235,13 @@ init: function () {
                     scimg = elem.data('ScImage.ss');
 
                 scimg.entry.removeClass('ss-current ss-centered');
-                scimg.thumb.removeClass('ss-current ss-centered');
+                scimg.getThumb().removeClass('ss-current ss-centered');
                 if (scimg.caption) {
                     scimg.caption.hide('slide', { direction: "down" }, 'fast');
                 }
 
                 scimg.entry.animate({ opacity: that.opts.opacity });
-                scimg.thumb.animate({ opacity: that.opts.opacity });
+                scimg.getThumb().animate({ opacity: that.opts.opacity });
             })
 
         .delegate('.ss-list li', 'setCurrent.ss', function (eve) {
@@ -232,14 +249,14 @@ init: function () {
                     scimg = elem.data('ScImage.ss');
 
                 scimg.entry.addClass('ss-current');
-                scimg.thumb.addClass('ss-current');
+                scimg.getThumb().addClass('ss-current');
 
                 if (scimg.caption) {
                     scimg.caption.show('slide', { direction: "down" }, 'fast');
                 }
 
                 scimg.entry.animate({ opacity: 1 });
-                scimg.thumb.animate({ opacity: 1 });
+                scimg.getThumb().animate({ opacity: 1 });
             })
     ;
 },
@@ -279,6 +296,17 @@ nextImg: function (eve) {
     this.setImageIndex(this.curImage + 1);
 },
 
+loadEntry: function (scimg) {
+    scimg.loadImage();
+
+    scimg.image.one('load', function () {
+        that.list.width(that.list.width() +
+            scimg.entry.outerWidth(true));
+    });
+
+    this.loadedPhotos.high++;
+},
+
 /**
  * Take an image hash, img.url, img.text, add to images list
  */
@@ -287,28 +315,24 @@ addImage: function (img) {
             opacity: this.opts.opacity,
             photo_dir: this.opts.photo_dir,
             thumb_dir: this.opts.thumb_dir }),
-        bigImg,
+        o = this.opts,
         that = this;
 
     this.images.push(scimg);
 
     this.list.append(scimg.entry);
 
-    this.thumblist.append(scimg.thumb);
+    this.thumblist.append(scimg.getThumb());
+    this.loadedThumbs.high++;
 
-    // TODO need to check index and load if needed
-    if (!scimg.image) {
-        bigImg = scimg.getImage().one('load', function () {
-            that.list.width(that.list.width() +
-                scimg.entry.outerWidth(true));
-        });
-        scimg.entry.prepend(bigImg);
+    if (this.images.length - 1 < this.curImage + o.load_num) {
+        this.loadEntry(scimg);
     }
 
     if (!scimg.added) {
-        scimg.thumb.find('img').one('load', function () {
+        scimg.getThumb().find('img').one('load', function () {
             that.thumblist.width(that.thumblist.width() +
-                scimg.thumb.outerWidth(true));
+                scimg.getThumb().outerWidth(true));
         });
     }
 
@@ -363,6 +387,8 @@ $.slidescale.defaults = {
     gallery_height: 300,
     gallery_width: 800,
     opacity: 0.5,
+    load_num: 7,
+    load_thumb_num: 10,
     thumb_height: 75,
     startingIndex: 0,                // index of images to start on
     photo_dir: "./img/photos",

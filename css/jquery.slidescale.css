@@ -37,6 +37,14 @@ div.ss .ss-list-wrapper {
     z-index: 2;
 }
 
+.ss .ss-list li {
+    display: none;
+}
+
+.ss .ss-list li.ss-loaded {
+    display: block;
+}
+
 .ss ol.ss-list li .ss-caption {
     position: absolute;
     bottom: 0px;
