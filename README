@@ -10,6 +10,7 @@ preloading to preload images to save bandwidth.
 
 SlideScale Options
 ------------------
+images - Array of ScImage option objects for creating images
 
 ScImage Options
 ---------------
