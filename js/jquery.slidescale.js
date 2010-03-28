@@ -38,9 +38,6 @@ function ScImage(entry, options) {
         this.text = "";
     }
 
-    if (!this.thumb) {
-        this.getThumb();
-    }
     if (this.text && !this.caption) {
         this.caption = $('<p />').text(this.text);
     }
@@ -64,7 +61,6 @@ function ScImage(entry, options) {
         this.entry.append(this.caption)
     }
 
-    this.thumb.css('opacity', this.opacity);
     this.entry
         .css('opacity', this.opacity)
         .data("ScImage.ss", this);
@@ -74,18 +70,23 @@ function ScImage(entry, options) {
 
 ScImage.prototype = {
 getThumb: function () {
-    this.thumb = $('<li />', {
-        html: $('<img />', {
-            src: this.thumb_path ? this.thumb_path :
-                [this.thumb_dir, this.name].join("/")
-        })
-    });
+    if (!this.thumb) {
+        this.thumb = $('<li />', {
+            opacity: this.opacity,
+            html: $('<img />', {
+                src: this.thumb_path ? this.thumb_path :
+                    [this.thumb_dir, this.name].join("/")
+            })
+        });
+    }
     return this.thumb;
 },
 getImage: function () {
-    this.image = $('<img />', { "class": "ss-photo",
-            src: this.photo_path ? this.photo_path :
-                [this.photo_dir, this.name].join("/") });
+    if (!this.image) {
+        this.image = $('<img />', { "class": "ss-photo",
+                src: this.photo_path ? this.photo_path :
+                    [this.photo_dir, this.name].join("/") });
+    }
     return this.image;
 }
 };
@@ -342,7 +343,7 @@ setImageIndex: function (ii) {
     scimg.entry.trigger('setCurrent');
 
     this._center(this.wrapper, scimg.entry, this.list);
-    this._center(this.bottom, scimg.thumb, this.thumblist);
+    this._center(this.bottom, scimg.getThumb(), this.thumblist);
 }
 
 };
