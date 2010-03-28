@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SlideScale Stream Demo Page</title>
+    <link rel="Stylesheet" href="./css/main.css" />
+    <link rel="Stylesheet" href="./css/jquery.slidescale.css" />
+</head>
+<body>
+
+<div id="gallery">
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.js"></script>
+<script src="./js/jquery.slidescale.js"></script>
+<script src="./js/imagelist.js"></script>
+<script>
+    var re = /(\.\w{3,4})$/, scimgs, ii,
+        startTime = +new Date(),
+        ss = $('#gallery').slidescale({
+        gallery_height: 400
+    }).data('slidescale');
+
+
+    function scimg_maker(path) {
+        return {
+            thumb_path: path.replace(re, "_t$1"),
+            photo_path: path
+        };
+    }
+
+    scimgs = $.map(imageList, scimg_maker);
+
+    for (ii = 0; ii < scimgs.length; ii++) {
+        ss.addImage(scimgs[ii]);
+    }
+    ss.setImageIndex(0);
+
+    console.log("elpased time: ", +new Date() - startTime);
+</script>
+</body>
+</html>
