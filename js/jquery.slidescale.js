@@ -307,25 +307,37 @@ loadEntry: function (scimg) {
     var that = this;
 
     scimg.loadImage();
-    scimg.image.one('load', function () {
+
+    function widthResize() {
         that.list.width(that.list.width() +
             scimg.entry.outerWidth(true));
-    });
+    }
 
+    if (scimg.image.get(0).complete) {
+        widthResize();
+    }
+    scimg.image.one('load', widthResize);
     this.loadedPhotos.high++;
 },
 
 loadThumb: function (scimg) {
     var that = this, 
-        thumb = scimg.getThumb();
+        thumb = scimg.getThumb(),
+        img = thumb.find('img');
 
     this.thumblist.append(thumb);
     this.loadedThumbs.high++;
 
-    thumb.find('img').one('load', function () {
+    function widthResize() {
         that.thumblist.width(that.thumblist.width() +
             scimg.getThumb().outerWidth(true));
-    });
+    }
+
+    if (img.get(0).complete) {
+        widthResize();
+    }
+
+    img.one('load', widthResize);
 },
 
 /**
