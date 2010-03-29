@@ -194,11 +194,11 @@ init: function () {
             })
         .delegate('.ss-button', 'mouseout.ss', function (eve) {
                 $(this).removeClass('hover')
-                    .clearQueue().animate({ opacity: 0 });
+                    .stop(true).animate({ opacity: 0 });
             })
         .delegate('.ss-button', 'mouseenter.ss', function (eve) {
                 $(this).addClass('hover')
-                    .clearQueue().animate({ opacity: that.opts.opacity });
+                    .stop(true).animate({ opacity: that.opts.opacity });
             })
 
         .delegate('ol li', 'mouseleave.ss', function (eve) {
@@ -208,7 +208,7 @@ init: function () {
                     return;
                 }
 
-                elem.clearQueue().animate({ opacity: that.opts.opacity });
+                elem.stop(true).animate({ opacity: that.opts.opacity });
             })
         .delegate('ol li', 'mouseenter.ss', function (eve) {
                 var elem = $(this).addClass('hover');
@@ -217,7 +217,7 @@ init: function () {
                     return;
                 }
 
-                elem.clearQueue().animate({ opacity: 1 });
+                elem.stop(true).animate({ opacity: 1 });
             })
 
         .delegate('.ss-thumb-list li, .ss-list li', 'click.ss', function (eve) {
@@ -321,7 +321,7 @@ loadEntry: function (scimg) {
 },
 
 loadThumb: function (scimg) {
-    var that = this, 
+    var that = this,
         thumb = scimg.getThumb(),
         img = thumb.find('img');
 
@@ -372,7 +372,7 @@ _center: function (container, entry, list) {
     offset += container.innerWidth() / 2;
     offset -= entry.outerWidth() / 2;
 
-    list.clearQueue().animate({left: offset}, function () {
+    list.stop(false, true).animate({left: offset}, function () {
                 entry.addClass('ss-centered');
             });
 },
