@@ -1,9 +1,12 @@
 /**
- * jquery.slidescale.js
+ * jQuery SlideScale Plugin
+ * Copyright 2010, Ziling Zhao
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ *
  * @author Ziling Zhao <zilingzhao@gmail.com>
  *
  * FIXME IE8 Transparency currenty totally borked
- * TODO incremental photo loading
+ * FIXME IE width issue with thumbnail area
  */
 (function ($) {
 
