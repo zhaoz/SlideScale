@@ -66,6 +66,14 @@ function ScImage(entry, options) {
         .data("ScImage.ss", this);
 
     this.image = undefined;
+
+    if (!this.thumb_path) {
+        this.thumb_path = [this.thumb_dir, this.name].join("/");
+    }
+
+    if (!this.photo_path) {
+        this.photo_path = [this.photo_dir, this.name].join("/");
+    }
 }
 
 ScImage.prototype = {
@@ -73,8 +81,7 @@ getThumb: function () {
     if (!this.thumb) {
         this.thumb = $('<li />', {
             html: $('<img />', {
-                src: this.thumb_path ? this.thumb_path :
-                    [this.thumb_dir, this.name].join("/")
+                src: this.thumb_path
             })
         }).css('opacity', this.opacity);
     }
@@ -82,9 +89,9 @@ getThumb: function () {
 },
 getImage: function () {
     if (!this.image) {
-        this.image = $('<img />', { "class": "ss-photo",
-                src: this.photo_path ? this.photo_path :
-                    [this.photo_dir, this.name].join("/") });
+        this.image = $('<img />', {
+                "class": "ss-photo",
+                src: this.photo_path });
     }
     return this.image;
 },
