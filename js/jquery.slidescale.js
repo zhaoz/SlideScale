@@ -6,7 +6,8 @@
  * @author Ziling Zhao <zilingzhao@gmail.com>
  *
  * FIXME IE8 Transparency currenty totally borked
- * FIXME IE width issue with thumbnail area
+ * TODO Disable selection from double click
+ * TODO use <a> wrapper for link clicking
  */
 (function ($) {
 
