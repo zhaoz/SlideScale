@@ -62,7 +62,7 @@ function ScImage(entry, options) {
         $("<div class='ss-trans-bg' />")
             .prependTo(this.caption);
 
-        this.entry.append(this.caption)
+        this.entry.append(this.caption);
     }
 
     this.entry
