@@ -8,6 +8,7 @@
  * FIXME IE8 Transparency currenty totally borked
  * TODO Disable selection from double click
  * TODO use <a> wrapper for link clicking
+ * FIXME centering doesn't seem to be working on stream.html
  */
 (function ($) {
 
@@ -15,8 +16,8 @@ var pathrex = /(?:\/|^)([^\/]+)$/;
 
 $.fn.slidescale = function (options) {
     this.each(function () {
-        var elem = $(this),
-            obj = new $.slidescale(elem, options);
+        var elem = $(this);
+        var obj = new $.slidescale(elem, options);
         elem.data('slidescale', obj);
     });
 
@@ -100,8 +101,8 @@ getImage: function () {
     return this.image;
 },
 loadImage: function () {
-    var that = this,
-        img = this.getImage();
+    var that = this;
+    var img = this.getImage();
 
     this.entry.prepend(img);
     this.entry.addClass('ss-loaded');
@@ -109,8 +110,9 @@ loadImage: function () {
 };
 
 $.slidescale = function (container, options) {
-    var ii, imgs, o, that = this,
-        $this = $(this);
+    var ii, imgs, o;
+    var that = this;
+    var $this = $(this);
 
     o = this.opts = $.extend({}, $.slidescale.defaults, options);
 
@@ -181,8 +183,8 @@ $.slidescale = function (container, options) {
 
 $.slidescale.prototype = {
 init: function () {
-    var that = this,
-        c = this.container;
+    var that = this;
+    var c = this.container;
 
     this.container
         .bind('next.ss', $.proxy(this, 'nextImg'))
@@ -239,8 +241,8 @@ init: function () {
             })
 
         .delegate('.ss-list li', 'unsetCurrent.ss', function (eve) {
-                var elem = $(this),
-                    scimg = elem.data('ScImage.ss');
+                var elem = $(this);
+                var scimg = elem.data('ScImage.ss');
 
                 scimg.entry.removeClass('ss-current ss-centered');
                 scimg.getThumb().removeClass('ss-current ss-centered');
@@ -253,8 +255,8 @@ init: function () {
             })
 
         .delegate('.ss-list li', 'setCurrent.ss', function (eve) {
-                var elem = $(this),
-                    scimg = elem.data('ScImage.ss');
+                var elem = $(this);
+                var scimg = elem.data('ScImage.ss');
 
                 scimg.entry.addClass('ss-current');
                 scimg.getThumb().addClass('ss-current');
@@ -322,9 +324,9 @@ loadEntry: function (scimg) {
 },
 
 loadThumb: function (scimg) {
-    var that = this,
-        thumb = scimg.getThumb(),
-        img = thumb.find('img');
+    var that = this;
+    var thumb = scimg.getThumb();
+    var img = thumb.find('img');
 
     this.thumblist.append(thumb);
     this.loadedThumbs.high++;
@@ -347,9 +349,9 @@ loadThumb: function (scimg) {
 addImage: function (img) {
     var scimg = new ScImage(img, {
             photo_dir: this.opts.photo_dir,
-            thumb_dir: this.opts.thumb_dir }),
-        o = this.opts,
-        that = this;
+            thumb_dir: this.opts.thumb_dir });
+    var o = this.opts;
+    var that = this;
 
     this.images.push(scimg);
 
@@ -379,8 +381,8 @@ _center: function (container, entry, list) {
 },
 
 setImageIndex: function (ii) {
-    var scimg, oldscimg, offset, entry, width, loadTop, loadThumbTop,
-        that = this;
+    var scimg, oldscimg, offset, entry, width, loadTop, loadThumbTop;
+    var that = this;
 
     ii = Math.max(Math.min(this.images.length - 1, ii || 0), 0);
 
