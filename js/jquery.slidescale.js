@@ -67,8 +67,11 @@ function ScImage(entry, options) {
     }
 
     this.entry
-        .css('opacity', this.opacity)
         .data("ScImage.ss", this);
+
+    this.overlay = $('<div class="ss-trans-bg" />')
+        .css('opacity', this.opacity)
+        .appendTo(this.entry);
 
     this.image = undefined;
 
@@ -250,7 +253,7 @@ init: function () {
                     scimg.caption.hide('slide', { direction: "down" }, 'fast');
                 }
 
-                scimg.entry.animate({ opacity: scimg.opacity });
+                scimg.overlay.animate({ opacity: scimg.opacity });
                 scimg.getThumb().animate({ opacity: scimg.opacity });
             })
 
@@ -265,7 +268,7 @@ init: function () {
                     scimg.caption.show('slide', { direction: "down" }, 'fast');
                 }
 
-                scimg.entry.animate({ opacity: 1 });
+                scimg.overlay.animate({ opacity: 0 });
                 scimg.getThumb().animate({ opacity: 1 });
             })
     ;
