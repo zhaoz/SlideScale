@@ -63,6 +63,7 @@ div.ss .ss-list-wrapper {
     width: 100%;
     position: relative;
     text-decoration: none;
+    z-index: 20;
     color: white;
 }
 
