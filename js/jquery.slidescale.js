@@ -213,7 +213,7 @@ init: function () {
                     return;
                 }
 
-                elem.stop(true).animate({ opacity: that.opts.opacity });
+                elem.find('.ss-trans-bg').stop(true).animate({ opacity: that.opts.opacity });
             })
         .delegate('ol li', 'mouseenter.ss', function (eve) {
                 var elem = $(this).addClass('hover');
@@ -222,7 +222,7 @@ init: function () {
                     return;
                 }
 
-                elem.stop(true).animate({ opacity: 1 });
+                elem.find('.ss-trans-bg').stop(true).animate({ opacity: 0 });
             })
 
         .delegate('.ss-thumb-list li, .ss-list li', 'click.ss', function (eve) {
