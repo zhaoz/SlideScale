@@ -68,9 +68,13 @@ function ScImage(entry, options) {
     this.entry
         .data("ScImage.ss", this);
 
-    this.overlay = $('<div class="ss-trans-bg" />')
+    this.overlay = $('<a class="ss-trans-bg" />')
         .css('opacity', this.opacity)
         .appendTo(this.entry);
+
+    if (this.photo_link) {
+        this.overlay.attr('href', this.photo_link);
+    }
 
     this.image = undefined;
 
@@ -227,19 +231,6 @@ init: function () {
 
         .delegate('.ss-thumb-list li, .ss-list li', 'click.ss', function (eve) {
                 that.setImageIndex($(this).prevAll().size());
-            })
-
-        .delegate('.ss-list li', 'click.ss', function (eve) {
-                var elem = $(this), scimg;
-                if (elem.hasClass('ss-centered')) {
-                    elem.trigger('changeLocation');
-                }
-            })
-        .delegate('.ss-list li', 'changeLocation.ss', function (eve) {
-                var scimg = $(this).data('ScImage.ss');
-                if (scimg.photo_link) {
-                    location.href = scimg.photo_link;
-                }
             })
 
         .delegate('.ss-list li', 'unsetCurrent.ss', function (eve) {
