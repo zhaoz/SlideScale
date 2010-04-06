@@ -34,8 +34,8 @@ Examples
 
     $('#gallery').slidescale({
         images: [
-            { photopath: "http://imagepath.com/sea-turtle.jpg",
-              thumbpath: "http://imagepath.com/thumb/sea-turtle.jpg",
+            { photo_path: "http://imagepath.com/sea-turtle.jpg",
+              thumb_path: "http://imagepath.com/thumb/sea-turtle.jpg",
               text: "Watch, the mighty Sea Turtle!"}
         ]
     });

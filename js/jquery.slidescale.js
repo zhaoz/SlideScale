@@ -6,7 +6,6 @@
  * @author Ziling Zhao <zilingzhao@gmail.com>
  *
  * TODO Disable selection from double click
- * TODO use <a> wrapper for link clicking
  * FIXME centering doesn't seem to be working on stream.html
  */
 (function ($) {
