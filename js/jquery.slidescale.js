@@ -239,6 +239,13 @@ init: function () {
                 that.setImageIndex($(this).prevAll().size());
             })
 
+        .delegate('.ss-list li', 'click.ss', function (eve) {
+                var elem = $(this);
+                if (!elem.hasClass('ss-centered')) {
+                    eve.preventDefault();
+                }
+            })
+
         .delegate('.ss-list li', 'unsetCurrent.ss', function (eve) {
                 var elem = $(this);
                 var scimg = elem.data('ScImage.ss');
