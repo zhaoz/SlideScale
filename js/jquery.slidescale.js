@@ -210,22 +210,29 @@ init: function () {
             })
 
         .delegate('ol li', 'mouseleave.ss', function (eve) {
-                var elem = $(this).addClass('hover');
+                var elem = $(this).addClass('hover'), opacity;
 
                 if (elem.hasClass('ss-current')) {
                     return;
                 }
 
-                elem.children('.ss-trans-bg').stop(true).animate({ opacity: that.opts.opacity });
+                if (elem.parent().hasClass('ss-list')) {
+                    elem = elem.children('.ss-trans-bg');
+                }
+                elem.stop(true).animate({ opacity: that.opts.opacity });
             })
         .delegate('ol li', 'mouseenter.ss', function (eve) {
-                var elem = $(this).addClass('hover');
+                var elem = $(this).addClass('hover'), opacity = 1;
 
                 if (elem.hasClass('ss-current')) {
                     return;
                 }
 
-                elem.children('.ss-trans-bg').stop(true).animate({ opacity: 0 });
+                if (elem.parent().hasClass('ss-list')) {
+                    elem = elem.children('.ss-trans-bg');
+                    opacity = 0;
+                }
+                elem.stop(true).animate({ opacity: opacity });
             })
 
         .delegate('.ss-thumb-list li, .ss-list li', 'click.ss', function (eve) {
