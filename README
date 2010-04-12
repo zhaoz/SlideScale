@@ -1,6 +1,14 @@
 SlideScale
 ==========
 
+DEPENDENCIES
+------------
+jquery >= 1.4.2
+jquery.ui >= 1.8.0
+jquery.slidescale.js
+jquery.slidescale.css
+
+
 DESCRIPTION
 -----------
 
