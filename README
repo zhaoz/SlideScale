@@ -8,17 +8,58 @@ Scalable gallery image viewer, has the ability to take images already on page,
 a list of urls passed in, or both to construct a gallery. Uses incremental
 preloading to preload images to save bandwidth.
 
-SlideScale Options
-------------------
-images - Array of ScImage option objects for creating images
+A user can define how many pictures to be preloaded (preload_num) past the
+current image. This is configurable for both main photos and for thumbnails.
 
-ScImage Options
----------------
-name - image name to use for finding image in thumbdir and photodir
-photo_path - overrides photodir finding with full path for photo
-thumb_path - overrides photodir finding with full path for image
-caption_link - link for the caption to go to when clicked
-photo_link - link for when the photo is clicked
+Options
+-------
+
+.SlideScale Options
+
+gallery_height::
+    Height of the photo area
+gallery_width::
+    Width of the photo area
+thumb_height::
+    height of thumbnail area
+opacity::
+    opacity for hovered buttons and inactive thumbnail opacity and photo opacity
+load_num::
+    num images left before preload is triggered
+preload_num::
+    number of photos to preload
+load_thumb_num::
+    number of thumbnails to preload
+photo_dir::
+    default photo directory
+thumb_dir::
+    default thumbnail directory
+images::
+    Array of ScImage option objects for creating images
+
+.ScImage Options
+
+name::
+    image name to use for finding image in thumbdir and photodir
+thumb_dir::
+    the directory to look up name in for thumbnail
+photo_dir::
+    the directory to look up name in for photo
+photo_path::
+    overrides photodir finding with full path for photo
+thumb_path::
+    overrides photodir finding with full path for image
+caption_link::
+    link for the caption to go to when clicked
+photo_link::
+    link for when the photo is clicked
+
+CSS
+---
+
+\.ss-trans-bg::
+    Transparency for caption backgrounds can be adjusted through overriding 
+    this class
 
 Examples
 --------
@@ -41,6 +82,13 @@ Examples
     });
 
 
+License
+-------
+
+Dual licensed under the MIT or GPL Version 2 licenses.
+
 Author
 ------
 Ziling Zhao <zilingzhao+NOSPAM@gmail.com>
+
+// vim: tw=78 :

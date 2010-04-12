@@ -68,7 +68,7 @@ function ScImage(entry, options) {
         .data("ScImage.ss", this);
 
     this.overlay = $('<a class="ss-trans-bg" />')
-        .css('opacity', this.opacity)
+        .css('opacity', 1 - this.opacity)
         .appendTo(this.entry);
 
     if (this.photo_link) {
@@ -435,6 +435,7 @@ setImageIndex: function (ii) {
 ScImage.defaults = {
     photo_dir: "./img/photos",
     opacity: 0.5,
+    name: undefined,
     thumb_dir: "./img/thumbs",
     photo_link: undefined,
     caption_link: undefined,
@@ -444,6 +445,7 @@ ScImage.defaults = {
 
 
 $.slidescale.defaults = {
+    images: [],
     gallery_height: 300,
     gallery_width: 800,
     opacity: 0.5,
@@ -451,7 +453,7 @@ $.slidescale.defaults = {
     preload_num: 5,
     load_thumb_num: 10,
     thumb_height: 75,
-    startingIndex: 0,                // index of images to start on
+    startingIndex: 0,   // index of image to start on, XXX doesn't work
     photo_dir: "./img/photos",
     thumb_dir: "./img/thumbs"
 };
