@@ -57,7 +57,9 @@ photo_link::
 CSS
 ---
 
-\.ss-trans-bg::
+.Classes
+
+ss-trans-bg::
     Transparency for caption backgrounds can be adjusted through overriding 
     this class
 
