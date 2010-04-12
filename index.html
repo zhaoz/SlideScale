@@ -40,6 +40,8 @@
         </ol>
     </div>
 
+    <div id="docs">
+    </div>
 </div>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
@@ -61,6 +63,9 @@
                 text: "Fish may want to be yellow too"}
         ]
     });
+
+    $('#docs').load('./README.html #content');
+
 </script>
 </body>
 </html>
