@@ -7,7 +7,7 @@
  * @version 0.1
  *
  * TODO Disable selection from double click
- * FIXME centering doesn't seem to be working on stream.html
+ * FIXME centering doesn't seem to be working on stream.html (initially)
  */
 (function ($) {
 
