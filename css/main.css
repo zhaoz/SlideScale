@@ -115,3 +115,7 @@ div.hdlist.compact tr {
   margin: 0;
   padding-bottom: 0;
 }
+
+#header {
+    display: none;
+}
