@@ -4,6 +4,7 @@
  * Dual licensed under the MIT or GPL Version 2 licenses.
  *
  * @author Ziling Zhao <zilingzhao@gmail.com>
+ * @version 0.1
  *
  * TODO Disable selection from double click
  * FIXME centering doesn't seem to be working on stream.html
