@@ -23,98 +23,6 @@ $.fn.slidescale = function (options) {
     return this;
 };
 
-function ScImage(entry, options) {
-    var img;
-    $.extend(this, ScImage.defaults, options || {});
-    if (entry instanceof jQuery) {
-        img = entry.find('img').remove();
-        this.thumb = $('<li />', { html: img }).css('opacity', this.opacity);
-        this.caption = entry.find('p').remove();
-
-        this.name = img.attr('src').match(pathrex)[1];
-        this.entry = entry;
-    } else {
-        options = $.extend(this, entry);
-        entry = null;
-    }
-
-    if (typeof(this.text) !== "string") {
-        this.text = "";
-    }
-
-    if (this.text && !this.caption) {
-        this.caption = $('<p />').text(this.text);
-    }
-
-    this.added = !!this.entry;
-    if (!this.added) {
-        this.entry = $('<li />');
-    }
-
-    if (this.caption) {
-        this.caption = $('<div class="ss-caption" />').append(this.caption);
-
-        if (this.caption_link) {
-            this.caption.wrapInner($('<a />', { href: this.caption_link }));
-        }
-
-        // add transparent box to caption
-        $("<div class='ss-trans-bg' />")
-            .prependTo(this.caption);
-
-        this.entry.append(this.caption);
-    }
-
-    this.entry
-        .data("ScImage.ss", this);
-
-    this.overlay = $('<a class="ss-trans-bg" />')
-        .css('opacity', 1 - this.opacity)
-        .appendTo(this.entry);
-
-    if (this.photo_link) {
-        this.overlay.attr('href', this.photo_link);
-    }
-
-    this.image = undefined;
-
-    if (!this.thumb_path) {
-        this.thumb_path = [this.thumb_dir, this.name].join("/");
-    }
-
-    if (!this.photo_path) {
-        this.photo_path = [this.photo_dir, this.name].join("/");
-    }
-}
-
-ScImage.prototype = {
-getThumb: function () {
-    if (!this.thumb) {
-        this.thumb = $('<li />', {
-            html: $('<img />', {
-                src: this.thumb_path
-            })
-        }).css('opacity', this.opacity);
-    }
-    return this.thumb;
-},
-getImage: function () {
-    if (!this.image) {
-        this.image = $('<img />', {
-                "class": "ss-photo",
-                src: this.photo_path });
-    }
-    return this.image;
-},
-loadImage: function () {
-    var that = this;
-    var img = this.getImage();
-
-    this.entry.prepend(img);
-    this.entry.addClass('ss-loaded');
-}
-};
-
 $.slidescale = function (container, options) {
     var ii, imgs, o;
     var that = this;
@@ -354,7 +262,7 @@ loadThumb: function (scimg) {
  * Take an image hash, img.url, img.text, add to images list
  */
 addImage: function (img) {
-    var scimg = new ScImage(img, {
+    var scimg = new $.slidescale.ScImage(img, {
             photo_dir: this.opts.photo_dir,
             thumb_dir: this.opts.thumb_dir });
     var o = this.opts;
@@ -433,7 +341,100 @@ setImageIndex: function (ii) {
 
 };
 
-ScImage.defaults = {
+$.slidescale.ScImage = function ScImage(entry, options) {
+    var img;
+    $.extend(this, $.slidescale.ScImage.defaults, options || {});
+    if (entry instanceof jQuery) {
+        img = entry.find('img').remove();
+        this.thumb = $('<li />', { html: img }).css('opacity', this.opacity);
+        this.caption = entry.find('p').remove();
+
+        this.name = img.attr('src').match(pathrex)[1];
+        this.entry = entry;
+    } else {
+        options = $.extend(this, entry);
+        entry = null;
+    }
+
+    if (typeof(this.text) !== "string") {
+        this.text = "";
+    }
+
+    if (this.text && !this.caption) {
+        this.caption = $('<p />').text(this.text);
+    }
+
+    this.added = !!this.entry;
+    if (!this.added) {
+        this.entry = $('<li />');
+    }
+
+    if (this.caption) {
+        this.caption = $('<div class="ss-caption" />').append(this.caption);
+
+        if (this.caption_link) {
+            this.caption.wrapInner($('<a />', { href: this.caption_link }));
+        }
+
+        // add transparent box to caption
+        $("<div class='ss-trans-bg' />")
+            .prependTo(this.caption);
+
+        this.entry.append(this.caption);
+    }
+
+    this.entry
+        .data("ScImage.ss", this);
+
+    this.overlay = $('<a class="ss-trans-bg" />')
+        .css('opacity', 1 - this.opacity)
+        .appendTo(this.entry);
+
+    if (this.photo_link) {
+        this.overlay.attr('href', this.photo_link);
+    }
+
+    this.image = undefined;
+
+    if (!this.thumb_path) {
+        this.thumb_path = [this.thumb_dir, this.name].join("/");
+    }
+
+    if (!this.photo_path) {
+        this.photo_path = [this.photo_dir, this.name].join("/");
+    }
+};
+
+$.slidescale.ScImage.prototype = {
+getThumb: function () {
+    if (!this.thumb) {
+        this.thumb = $('<li />', {
+            html: $('<img />', {
+                src: this.thumb_path
+            })
+        }).css('opacity', this.opacity);
+    }
+    return this.thumb;
+},
+getImage: function () {
+    if (!this.image) {
+        this.image = $('<img />', {
+                "class": "ss-photo",
+                src: this.photo_path });
+    }
+    return this.image;
+},
+loadImage: function () {
+    var that = this;
+    var img = this.getImage();
+
+    this.entry.prepend(img);
+    this.entry.addClass('ss-loaded');
+}
+};
+
+
+$.slidescale.ScImage.defaults = {
     photo_dir: "./img/photos",
     opacity: 0.5,
     name: undefined,
@@ -458,5 +459,6 @@ $.slidescale.defaults = {
     photo_dir: "./img/photos",
     thumb_dir: "./img/thumbs"
 };
+
 
 }(jQuery));
