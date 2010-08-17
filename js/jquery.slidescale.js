@@ -460,5 +460,4 @@ $.slidescale.defaults = {
     thumb_dir: "./img/thumbs"
 };
 
-
 }(jQuery));

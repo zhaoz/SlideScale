@@ -1,0 +1,16 @@
+ChangeLog
+=========
+
+0.2
+---
+
+- Made ScImage more accessible outside of closure
+- Doc'd some of the special events
+- Realized how horridly unreadable the docs are and changed asciidoc theme
+
+
+
+0.1 
+---
+
+- initial release

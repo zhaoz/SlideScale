@@ -19,6 +19,37 @@ preloading to preload images to save bandwidth.
 A user can define how many pictures to be preloaded (preload_num) past the
 current image. This is configurable for both main photos and for thumbnails.
 
+Tested in IE7+, FF3.6, Chrome.
+
+If you're using the plugin, _send me an email_! It would be great to
+know if people actually use it and where.
+
+
+Events
+------
+
+SlideScale triggers and listens to some events that may be useful for
+developers.
+
+.SlideScale Container Events
+
+Container is the object passed to slidescale on construction
+
+next::
+    If triggered, slidescale moves to the next image. Event is triggered right
+    before slidesscale moves to next image.
+
+prev::
+    If triggered, slidescale moves to the previous image. Event is triggered 
+    right before slidesscale moves to previous image.
+
+setCurrent::
+    Called on the image list list item prior to centering image.
+
+unsetCurrent::
+    Triggered on image list item prior to removal from center.
+
+
 Options
 -------
 
