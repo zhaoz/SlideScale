@@ -45,10 +45,15 @@
         <li><a href="http://github.com/zhaoz/SlideScale/downloads">Downloads (github)</a></li>
         <li><a href="http://github.com/zhaoz/SlideScale">Code (Github)</a></li>
         <li><a href="./README.html">README</a></li>
+        <li><a href="./CHANGELOG.html">CHANGELOG</a></li>
     </ul>
 
     <div id="docs">
     </div>
+
+    <div id="changelog">
+    </div>
+
 </div>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
@@ -74,5 +79,20 @@
     $('#docs').load('./README.html');
 
 </script>
+<style>
+    /* override unreadable asciidoc colors */
+
+    em, dt.hdlist1, td.hdlist1 {
+        color: white;
+    }
+
+    a {
+        color: #AAA;
+    }
+
+    tt {
+        color: #CCCCCC;
+    }
+</style>
 </body>
 </html>
