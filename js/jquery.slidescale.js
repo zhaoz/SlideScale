@@ -15,8 +15,8 @@ var pathrex = /(?:\/|^)([^\/]+)$/;
 
 $.fn.slidescale = function (options) {
     this.each(function () {
-        var elem = $(this);
-        var obj = new $.slidescale(elem, options);
+        var elem = $(this),
+            obj = new $.slidescale(elem, options);
         elem.data('slidescale', obj);
     });
 
@@ -24,9 +24,9 @@ $.fn.slidescale = function (options) {
 };
 
 $.slidescale = function (container, options) {
-    var ii, imgs, o;
-    var that = this;
-    var $this = $(this);
+    var ii, imgs, o,
+        that = this,
+        $this = $(this);
 
     o = this.opts = $.extend({}, $.slidescale.defaults, options);
 
