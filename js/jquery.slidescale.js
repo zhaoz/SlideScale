@@ -47,6 +47,7 @@ $.slidescale = function (container, options) {
         .appendTo(this.wrapper);
 
     this.wrapper
+        .width(o.gallery_width)
         .append('<div class="ss-prev ss-button" />')
         .append('<div class="ss-next ss-button" />')
         .appendTo(container)
