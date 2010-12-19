@@ -1,6 +1,11 @@
 ChangeLog
 =========
 
+master
+------
+
+- Fixed an IE6 issue with wrong gallery offset (thanks apinstein)
+
 0.2
 ---
 
