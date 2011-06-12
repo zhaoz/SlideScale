@@ -3,6 +3,10 @@ html, body {
     color: white;
 }
 
+div.sectionbody {
+    font-family: verdana, sans-serif;
+}
+
 em, dt.hdlist1, td.hdlist1 {
     color: white;
 }
