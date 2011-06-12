@@ -1,22 +1,17 @@
 ChangeLog
 =========
 
-0.3
----
-
-- Fixed an IE6 issue with wrong gallery offset (thanks apinstein)
-- control_fade_speed option, falsey for no fading
-- Fixed a image load size issue
-- Prevent drag and select events
-- onload call back configuration for ScImage
-
-
 0.2
 ---
 
 - Made ScImage more accessible outside of closure
 - Doc'd some of the special events
 - Realized how horridly unreadable the docs are and corrected some colors
+- Fixed an IE6 issue with wrong gallery offset (thanks apinstein)
+- control_fade_speed option, falsey for no fading
+- Fixed a image load size issue
+- Prevent drag and select events
+- onload call back configuration for ScImage
 
 
 0.1 
