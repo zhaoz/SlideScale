@@ -59,10 +59,12 @@ $.slidescale = function (container, options) {
         .appendTo(container)
         .find('.ss-button').css('opacity', o.opacity);
 
-    setTimeout(function () {
-            that.wrapper.find('.ss-button').not('.hover')
-                .animate({ opacity: 0 });
-        }, 5000);
+    if (o.control_fade_speed) {
+        setTimeout(function () {
+                that.wrapper.find('.ss-button').not('.hover')
+                    .animate({ opacity: 0 });
+            }, 5000);
+    }
 
     this.thumblist = $("<ol />", { "class": "ss-thumb-list" });
 
@@ -117,12 +119,20 @@ init: function () {
                 $(c).trigger('prev');
             })
         .delegate('.ss-button', 'mouseout.ss', function (eve) {
-                $(this).removeClass('hover')
-                    .stop(true).animate({ opacity: 0 });
+                var elem = $(this);
+                elem.removeClass('hover').stop(true);
+                if (that.opts.control_fade_speed) {
+                    elem.animate({ opacity: 0 },
+                        that.opts.control_fade_speed);
+                }
             })
         .delegate('.ss-button', 'mouseenter.ss', function (eve) {
-                $(this).addClass('hover')
-                    .stop(true).animate({ opacity: that.opts.opacity });
+                var elem = $(this);
+                elem.addClass('hover').stop(true)
+                if (that.opts.control_fade_speed) {
+                    elem.animate({ opacity: that.opts.opacity },
+                        that.opts.control_fade_speed);
+                }
             })
 
         .delegate('ol li', 'mouseleave.ss', function (eve) {
@@ -461,6 +471,7 @@ $.slidescale.defaults = {
     load_thumb_num: 10,
     thumb_height: 75,
     startingIndex: 0,   // index of image to start on, XXX doesn't work
+    control_fade_speed: 0,
     photo_dir: "./img/photos",
     thumb_dir: "./img/thumbs"
 };

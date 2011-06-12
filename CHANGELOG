@@ -1,10 +1,11 @@
 ChangeLog
 =========
 
-master
+0.3
 ------
 
 - Fixed an IE6 issue with wrong gallery offset (thanks apinstein)
+- control_fade_speed option, falsey for no fade
 
 0.2
 ---
