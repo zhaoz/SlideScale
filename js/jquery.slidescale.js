@@ -480,7 +480,7 @@ $.slidescale.defaults = {
     load_thumb_num: 10,
     thumb_height: 75,
     startingIndex: 0,   // index of image to start on, XXX doesn't work
-    control_fade_speed: 0,
+    control_fade_speed: 800,
     photo_dir: "./img/photos",
     thumb_dir: "./img/thumbs"
 };
