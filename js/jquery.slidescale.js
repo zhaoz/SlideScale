@@ -231,17 +231,12 @@ nextImg: function (eve) {
 loadEntry: function (scimg) {
     var that = this;
 
-    scimg.loadImage();
-
     function widthResize() {
-        that.list.width(that.list.width() +
-            scimg.entry.outerWidth(true));
+        var width = that.list.width() + scimg.entry.outerWidth(true);
+        that.list.width(width);
     }
 
-    if (scimg.image.get(0).complete) {
-        widthResize();
-    }
-    scimg.image.one('load', widthResize);
+    scimg.loadImage(widthResize);
     this.loadedPhotos.high++;
 },
 
@@ -423,17 +418,20 @@ getThumb: function () {
     }
     return this.thumb;
 },
-getImage: function () {
+getImage: function (onLoad) {
     if (!this.image) {
         this.image = $('<img />', {
-                "class": "ss-photo",
-                src: this.photo_path });
+                "class": "ss-photo"});
+        if (onLoad) {
+            this.image.load(onLoad);
+        }
+        this.image.attr('src', this.photo_path);
     }
     return this.image;
 },
-loadImage: function () {
+loadImage: function (onLoad) {
     var that = this;
-    var img = this.getImage();
+    var img = this.getImage(onLoad);
 
     this.entry.prepend(img);
     this.entry.addClass('ss-loaded');
