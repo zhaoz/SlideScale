@@ -4,10 +4,10 @@ all: docs
 docs: README.html CHANGELOG.html
 
 README.html:
-	asciidoc README
+	asciidoc -a stylesheet=`pwd`/css/docs.css -f /etc/asciidoc/html5.conf README
 
 CHANGELOG.html:
-	asciidoc CHANGELOG
+	asciidoc -a stylesheet=`pwd`/css/docs.css -f /etc/asciidoc/html5.conf CHANGELOG
 
 clean:
 	rm -f README.html CHANGELOG.html

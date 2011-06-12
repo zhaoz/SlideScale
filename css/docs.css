@@ -1,0 +1,24 @@
+html, body {
+    font-family: verdana, sans-serif;
+    color: white;
+}
+
+em, dt.hdlist1, td.hdlist1 {
+    color: white;
+}
+
+a {
+    color: #AAA;
+}
+
+tt {
+    color: #CCCCCC;
+}
+
+ul > li > * {
+    color: white;
+}
+
+.monospaced {
+    color: #CCCCFF;
+}
