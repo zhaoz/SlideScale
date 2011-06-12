@@ -55,6 +55,8 @@ Options
 
 .SlideScale Options
 
+control_fade_speed::
+    Control fade speed, passed directly to animate, falsey for no fading.
 gallery_height::
     Height of the photo area
 gallery_width::

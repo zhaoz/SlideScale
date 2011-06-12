@@ -5,7 +5,9 @@ ChangeLog
 ------
 
 - Fixed an IE6 issue with wrong gallery offset (thanks apinstein)
-- control_fade_speed option, falsey for no fade
+- control_fade_speed option, falsey for no fading
+- Fixed a image load size issue
+- Prevent drag and select events
 
 0.2
 ---
