@@ -8,6 +8,7 @@ ChangeLog
 - control_fade_speed option, falsey for no fading
 - Fixed a image load size issue
 - Prevent drag and select events
+- onload call back configuration for ScImage
 
 
 0.2

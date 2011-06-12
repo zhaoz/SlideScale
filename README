@@ -94,6 +94,10 @@ caption_link::
     link for the caption to go to when clicked
 photo_link::
     link for when the photo is clicked
+thumb_load_cb::
+    function to call when thumbnail has loaded
+image_load_cb::
+    function to call when image has loaded
 
 CSS
 ---

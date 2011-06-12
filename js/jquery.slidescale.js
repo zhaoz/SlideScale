@@ -419,12 +419,16 @@ $.slidescale.ScImage = function ScImage(entry, options) {
 
 $.slidescale.ScImage.prototype = {
 getThumb: function () {
+    var thumb_img;
     if (!this.thumb) {
-        this.thumb = $('<li />', {
-            html: $('<img />', {
-                src: this.thumb_path
-            })
-        }).css('opacity', this.opacity);
+        thumb_img = $('<img />');
+        if (this.thumb_load_cb) {
+            thumb_img.load(this.thumb_load_cb);
+        }
+        thumb_img.attr('src', this.thumb_path);
+
+        this.thumb = $('<li />').css('opacity', this.opacity);
+        this.thumb.append(thumb_img);
     }
     return this.thumb;
 },
@@ -434,6 +438,9 @@ getImage: function (onLoad) {
                 "class": "ss-photo"});
         if (onLoad) {
             this.image.load(onLoad);
+        }
+        if (this.image_load_cb) {
+            this.image.load(this.image_load_cb);
         }
         this.image.attr('src', this.photo_path);
     }
@@ -457,6 +464,8 @@ $.slidescale.ScImage.defaults = {
     photo_link: undefined,
     caption_link: undefined,
     thumb_path: undefined,
+    thumb_load_cb: null,
+    image_load_cb: null,
     photo_path: undefined
 };
 
