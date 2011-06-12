@@ -13,6 +13,10 @@
 
 var pathrex = /(?:\/|^)([^\/]+)$/;
 
+function preventDefault(eve) {
+    eve.preventDefault();
+}
+
 $.fn.slidescale = function (options) {
     this.each(function () {
         var elem = $(this),
@@ -32,6 +36,8 @@ $.slidescale = function (container, options) {
 
     this.container = container
         .addClass('ss')
+        .bind('dragstart', preventDefault)
+        .bind('selectstart', preventDefault)
         .width(o.gallery_width);
 
     this.list = container.children('ol');
