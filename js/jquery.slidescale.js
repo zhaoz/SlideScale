@@ -28,11 +28,7 @@ $.fn.slidescale = function (options) {
 };
 
 $.slidescale = function (container, options) {
-    var ii, imgs, o,
-        that = this,
-        $this = $(this);
-
-    o = this.opts = $.extend({}, $.slidescale.defaults, options);
+    var o = this.opts = $.extend({}, $.slidescale.defaults, options);
 
     this.container = container
         .addClass('ss')
@@ -60,10 +56,10 @@ $.slidescale = function (container, options) {
         .find('.ss-button').css('opacity', o.opacity);
 
     if (o.control_fade_speed) {
-        setTimeout(function () {
-                that.wrapper.find('.ss-button').not('.hover')
+        setTimeout($.proxy(function () {
+                this.wrapper.find('.ss-button').not('.hover')
                     .animate({ opacity: 0 });
-            }, 5000);
+            }, this), 5000);
     }
 
     this.thumblist = $("<ol />", { "class": "ss-thumb-list" });
@@ -87,8 +83,8 @@ $.slidescale = function (container, options) {
     this._initImages();
 
     if (o.images) {
-        imgs = o.images;
-        for (ii = 0; ii < imgs.length; ii++) {
+        var imgs = o.images;
+        for (var ii = 0; ii < imgs.length; ii++) {
             this.addImage(imgs[ii]);
         }
     }
@@ -98,9 +94,10 @@ $.slidescale = function (container, options) {
     // startingINdex only makes sense if we have that to start on
     if (this.images.length > o.startingIndex) {
         // set imageindex after image has loaded
-        this.images[o.startingIndex].entry.find('img').one('load', function () {
-                that.setImageIndex(o.startingIndex);
-            });
+        this.images[o.startingIndex].entry.find('img').one('load',
+            $.proxy(function () {
+                this.setImageIndex(o.startingIndex);
+            }, this));
     }
 };
 
