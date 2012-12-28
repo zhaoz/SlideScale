@@ -107,24 +107,24 @@ init: function () {
     var c = this.container;
 
     this.container
-        .bind('next.ss', $.proxy(this, 'nextImg'))
-        .bind('prev.ss', $.proxy(this, 'prevImg'))
-        .delegate('.ss-list-wrapper .ss-next', 'click.ss', function (eve) {
-                $(c).trigger('next');
-            })
-        .delegate('.ss-list-wrapper .ss-prev', 'click.ss', function (eve) {
-                $(c).trigger('prev');
-            })
-        .delegate('.ss-button', 'mouseout.ss', function (eve) {
-                var elem = $(this);
+        .bind('next.ss', $.proxy(this.nextImg, this))
+        .bind('prev.ss', $.proxy(this.prevImg, this))
+        .delegate('.ss-list-wrapper .ss-next', 'click.ss', $.proxy(function (eve) {
+                $(this.container).trigger('next');
+            }, this))
+        .delegate('.ss-list-wrapper .ss-prev', 'click.ss', $.proxy(function (eve) {
+                $(this.container).trigger('prev');
+            }, this))
+        .delegate('.ss-button', 'mouseout.ss', $.proxy(function (eve) {
+                var elem = $(eve.currentTarget);
                 elem.removeClass('hover').stop(true);
-                if (that.opts.control_fade_speed) {
+                if (this.opts.control_fade_speed) {
                     elem.animate({ opacity: 0 },
-                        that.opts.control_fade_speed);
+                        this.opts.control_fade_speed);
                 }
-            })
+            }, this))
         .delegate('.ss-button', 'mouseenter.ss', function (eve) {
-                var elem = $(this);
+                var elem = $(eve.currentTarget);
                 elem.addClass('hover').stop(true)
                 if (that.opts.control_fade_speed) {
                     elem.animate({ opacity: that.opts.opacity },
@@ -133,7 +133,7 @@ init: function () {
             })
 
         .delegate('ol li', 'mouseleave.ss', function (eve) {
-                var elem = $(this).addClass('hover'), opacity;
+                var elem = $(eve.currentTarget).addClass('hover'), opacity;
 
                 if (elem.hasClass('ss-current')) {
                     return;
@@ -145,7 +145,7 @@ init: function () {
                 elem.stop(true).animate({ opacity: that.opts.opacity });
             })
         .delegate('ol li', 'mouseenter.ss', function (eve) {
-                var elem = $(this).addClass('hover'), opacity = 1;
+                var elem = $(eve.currentTarget).addClass('hover'), opacity = 1;
 
                 if (elem.hasClass('ss-current')) {
                     return;
@@ -159,18 +159,18 @@ init: function () {
             })
 
         .delegate('.ss-thumb-list li, .ss-list li', 'click.ss', function (eve) {
-                that.setImageIndex($(this).prevAll().size());
+                that.setImageIndex($(eve.currentTarget).prevAll().size());
             })
 
         .delegate('.ss-list li', 'click.ss', function (eve) {
-                var elem = $(this);
+                var elem = $(eve.currentTarget);
                 if (!elem.hasClass('ss-centered')) {
                     eve.preventDefault();
                 }
             })
 
         .delegate('.ss-list li', 'unsetCurrent.ss', function (eve) {
-                var elem = $(this);
+                var elem = $(eve.currentTarget);
                 var scimg = elem.data('ScImage.ss');
 
                 scimg.entry.removeClass('ss-current ss-centered');
@@ -184,7 +184,7 @@ init: function () {
             })
 
         .delegate('.ss-list li', 'setCurrent.ss', function (eve) {
-                var elem = $(this);
+                var elem = $(eve.currentTarget);
                 var scimg = elem.data('ScImage.ss');
 
                 scimg.entry.addClass('ss-current');
