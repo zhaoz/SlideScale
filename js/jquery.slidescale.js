@@ -27,13 +27,13 @@ $.fn.slidescale = function (options) {
 };
 
 $.slidescale = function (container, options) {
-    var o = this.opts = $.extend({}, $.slidescale.defaults, options);
+    this.opts = $.extend({}, $.slidescale.defaults, options);
 
     this.container = container
         .addClass('ss')
         .bind('dragstart', preventDefault)
         .bind('selectstart', preventDefault)
-        .width(o.gallery_width);
+        .width(this.opts.gallery_width);
 
     this.list = container.children('ol');
     if (!this.list.size()) {
@@ -44,17 +44,17 @@ $.slidescale = function (container, options) {
 
     this.list
         .addClass('ss-list')
-        .height(o.gallery_height)
+        .height(this.opts.gallery_height)
         .appendTo(this.wrapper);
 
     this.wrapper
-        .width(o.gallery_width)
+        .width(this.opts.gallery_width)
         .append('<div class="ss-prev ss-button" />')
         .append('<div class="ss-next ss-button" />')
         .appendTo(container)
-        .find('.ss-button').css('opacity', o.opacity);
+        .find('.ss-button').css('opacity', this.opts.opacity);
 
-    if (o.control_fade_speed) {
+    if (this.opts.control_fade_speed) {
         setTimeout($.proxy(function () {
                 this.wrapper.find('.ss-button').not('.hover')
                     .animate({ opacity: 0 });
@@ -64,7 +64,7 @@ $.slidescale = function (container, options) {
     this.thumblist = $("<ol />", { "class": "ss-thumb-list" });
 
     this.bottom = this._constructBottom(this.thumblist)
-        .appendTo(this.container).height(o.thumb_height);
+        .appendTo(this.container).height(this.opts.thumb_height);
 
     this.images = [];
 
@@ -81,8 +81,8 @@ $.slidescale = function (container, options) {
 
     this._initImages();
 
-    if (o.images) {
-        var imgs = o.images;
+    if (this.opts.images) {
+        var imgs = this.opts.images;
         for (var ii = 0; ii < imgs.length; ii++) {
             this.addImage(imgs[ii]);
         }
@@ -91,11 +91,11 @@ $.slidescale = function (container, options) {
     this.init();
 
     // startingINdex only makes sense if we have that to start on
-    if (this.images.length > o.startingIndex) {
+    if (this.images.length > this.opts.startingIndex) {
         // set imageindex after image has loaded
-        this.images[o.startingIndex].entry.find('img').one('load',
+        this.images[this.opts.startingIndex].entry.find('img').one('load',
             $.proxy(function () {
-                this.setImageIndex(o.startingIndex);
+                this.setImageIndex(this.opts.startingIndex);
             }, this));
     }
 };
@@ -267,17 +267,16 @@ addImage: function (img) {
     var scimg = new $.slidescale.ScImage(img, {
             photo_dir: this.opts.photo_dir,
             thumb_dir: this.opts.thumb_dir });
-    var o = this.opts;
 
     this.images.push(scimg);
 
     this.list.append(scimg.entry);
 
-    if (this.images.length - 1 < this.curImage + o.load_thumb_num) {
+    if (this.images.length - 1 < this.curImage + this.opts.load_thumb_num) {
         this.loadThumb(scimg);
     }
 
-    if (this.images.length - 1 < this.curImage + o.load_num) {
+    if (this.images.length - 1 < this.curImage + this.opts.load_num) {
         this.loadEntry(scimg);
     }
 
