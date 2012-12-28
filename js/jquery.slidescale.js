@@ -212,7 +212,6 @@ die: function () {
 _onResize: function(eve) {
   // TODO 20 is arbitrary here, can we measure this?
   var height = this.container.innerHeight() - this.opts.thumb_height - 20;
-  window.console.log('resize event');
   this.list.height(height);
 },
 

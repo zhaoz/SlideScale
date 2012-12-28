@@ -31,6 +31,11 @@ div.ss .ss-list-wrapper {
     z-index: 0;
 }
 
+.ss ol.ss-list li .ss-photo {
+  max-height: 100%;
+  max-width: 100%;
+}
+
 .ss li.ss-current {
     display: block;
     z-index: 2;
@@ -88,6 +93,11 @@ div.ss .ss-list-wrapper {
 .ss .ss-thumb-list li {
     position: relative;
     margin: 0px 2px;
+}
+
+.ss .ss-thumb-list li img {
+  max-height: 100%;
+  max-width: 100%;
 }
 
 .ss div.ss-list-wrapper .ss-button {
@@ -165,5 +175,4 @@ div.ss .ss-list-wrapper {
 .ss ol.ss-thumb-list li {
     float: left;
 }
-
 
