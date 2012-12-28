@@ -112,6 +112,7 @@ div.ss .ss-list-wrapper {
     z-index: 100;
     position: absolute;
     background-repeat: no-repeat;
+    opacity: 0.5;
 }
 
 .ss div.ss-bottom .ss-button {

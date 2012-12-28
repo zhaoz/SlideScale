@@ -16,6 +16,23 @@ function preventDefault(eve) {
   eve.preventDefault();
 }
 
+
+// from MDN. Modified.
+function cssTransitionsEnabled() {
+  var domPrefixes = 'Webkit Moz O ms Khtml'.split(' ');
+   
+  if (elm.style.animationName) {
+    return true;
+  }
+   
+  for (var ii=0; ii < domPrefixes.length; ii++ ) {
+    if (elm.style[ domPrefixes[ii] + 'AnimationName'] !== undefined) {
+      return true;
+    }
+  }
+  return false;
+}
+
 $.fn.slidescale = function (options) {
   this.each(function (ii, elem) {
     var obj = new $.slidescale($(elem), options);
@@ -50,8 +67,11 @@ $.slidescale = function (container, options) {
     this.wrapper
         .append('<div class="ss-prev ss-button" />')
         .append('<div class="ss-next ss-button" />')
-        .appendTo(container)
-        .find('.ss-button').css('opacity', this.opts.opacity);
+        .appendTo(container);
+
+    if (!this.opts.css_transitions) {
+      this._button_opacity = .find('.ss-button').css('opacity');
+    }
 
     if (this.opts.control_fade_speed) {
         setTimeout($.proxy(function () {
@@ -123,7 +143,7 @@ init: function () {
             var elem = $(eve.currentTarget);
             elem.addClass('hover').stop(true)
             if (this.opts.control_fade_speed) {
-                elem.animate({ opacity: this.opts.opacity },
+                elem.animate({ opacity: this._button_opacity },
                     this.opts.control_fade_speed);
             }
         }, this))
@@ -138,7 +158,7 @@ init: function () {
             if (elem.parent().hasClass('ss-list')) {
                 elem = elem.children('.ss-trans-bg');
             }
-            elem.stop(true).animate({ opacity: this.opts.opacity });
+            elem.stop(true).animate({ opacity: this._button_opacity });
         }, this))
     .delegate('ol li', 'mouseenter.ss', function (eve) {
             var elem = $(eve.currentTarget).addClass('hover');
@@ -209,7 +229,7 @@ die: function () {
         .undelegate('*', '.ss');
 },
 
-_onResize: function(eve) {
+_onResize: function() {
   // TODO 20 is arbitrary here, can we measure this?
   var height = this.container.innerHeight() - this.opts.thumb_height - 20;
   this.list.height(height);
@@ -454,7 +474,6 @@ loadImage: function (onLoad) {
 
 $.slidescale.ScImage.defaults = {
     photo_dir: "./img/photos",
-    opacity: 0.5,
     name: undefined,
     thumb_dir: "./img/thumbs",
     photo_link: undefined,
@@ -475,6 +494,7 @@ $.slidescale.defaults = {
     thumb_height: 75,
     startingIndex: 0,   // index of image to start on, XXX doesn't work
     control_fade_speed: 800,
+    css_transitions: cssTransitionsEnabled(),
     photo_dir: "./img/photos",
     thumb_dir: "./img/thumbs"
 };
