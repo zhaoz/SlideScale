@@ -103,8 +103,6 @@ $.slidescale = function (container, options) {
 
 $.slidescale.prototype = {
 init: function () {
-    var that = this;
-    var c = this.container;
 
     this.container
         .bind('next.ss', $.proxy(this.nextImg, this))
@@ -123,16 +121,16 @@ init: function () {
                         this.opts.control_fade_speed);
                 }
             }, this))
-        .delegate('.ss-button', 'mouseenter.ss', function (eve) {
+        .delegate('.ss-button', 'mouseenter.ss', $.proxy(function (eve) {
                 var elem = $(eve.currentTarget);
                 elem.addClass('hover').stop(true)
-                if (that.opts.control_fade_speed) {
-                    elem.animate({ opacity: that.opts.opacity },
-                        that.opts.control_fade_speed);
+                if (this.opts.control_fade_speed) {
+                    elem.animate({ opacity: this.opts.opacity },
+                        this.opts.control_fade_speed);
                 }
-            })
+            }, this))
 
-        .delegate('ol li', 'mouseleave.ss', function (eve) {
+        .delegate('ol li', 'mouseleave.ss', $.proxy(function (eve) {
                 var elem = $(eve.currentTarget).addClass('hover'), opacity;
 
                 if (elem.hasClass('ss-current')) {
@@ -142,8 +140,8 @@ init: function () {
                 if (elem.parent().hasClass('ss-list')) {
                     elem = elem.children('.ss-trans-bg');
                 }
-                elem.stop(true).animate({ opacity: that.opts.opacity });
-            })
+                elem.stop(true).animate({ opacity: this.opts.opacity });
+            }, this))
         .delegate('ol li', 'mouseenter.ss', function (eve) {
                 var elem = $(eve.currentTarget).addClass('hover'), opacity = 1;
 
@@ -158,9 +156,9 @@ init: function () {
                 elem.stop(true).animate({ opacity: opacity });
             })
 
-        .delegate('.ss-thumb-list li, .ss-list li', 'click.ss', function (eve) {
-                that.setImageIndex($(eve.currentTarget).prevAll().size());
-            })
+        .delegate('.ss-thumb-list li, .ss-list li', 'click.ss', $.proxy(function (eve) {
+                this.setImageIndex($(eve.currentTarget).prevAll().size());
+            }, this))
 
         .delegate('.ss-list li', 'click.ss', function (eve) {
                 var elem = $(eve.currentTarget);
@@ -215,10 +213,9 @@ _constructBottom: function (thumblist) {
 },
 
 _initImages: function () {
-    var that = this;
-    this.container.find('ol.ss-list > li').remove().each(function () {
-            that.addImage($(this));
-        });
+    this.container.find('ol.ss-list > li').remove().each($.proxy(function (ii, elem) {
+            this.addImage($(elem));
+        }, this));
 },
 
 prevImg: function (eve) {
@@ -236,29 +233,26 @@ nextImg: function (eve) {
 },
 
 loadEntry: function (scimg) {
-    var that = this;
-
-    function widthResize() {
-        var width = that.list.width() + scimg.entry.outerWidth(true);
-        that.list.width(width);
-    }
+    var widthResize = $.proxy(function() {
+        var width = this.list.width() + scimg.entry.outerWidth(true);
+        this.list.width(width);
+    }, this);
 
     scimg.loadImage(widthResize);
     this.loadedPhotos.high++;
 },
 
 loadThumb: function (scimg) {
-    var that = this;
     var thumb = scimg.getThumb();
     var img = thumb.find('img');
 
     this.thumblist.append(thumb);
     this.loadedThumbs.high++;
 
-    function widthResize() {
-        that.thumblist.width(that.thumblist.width() +
+    var widthResize = $.proxy(function() {
+        this.thumblist.width(this.thumblist.width() +
             scimg.getThumb().outerWidth(true));
-    }
+    }, this);
 
     if (img.get(0).complete) {
         widthResize();
@@ -275,7 +269,6 @@ addImage: function (img) {
             photo_dir: this.opts.photo_dir,
             thumb_dir: this.opts.thumb_dir });
     var o = this.opts;
-    var that = this;
 
     this.images.push(scimg);
 
@@ -306,7 +299,6 @@ _center: function (container, entry, list) {
 
 setImageIndex: function (ii) {
     var scimg, oldscimg, offset, entry, width, loadTop, loadThumbTop;
-    var that = this;
 
     ii = Math.max(Math.min(this.images.length - 1, ii || 0), 0);
 
@@ -325,26 +317,26 @@ setImageIndex: function (ii) {
     loadTop = Math.min(this.curImage + this.opts.load_num +
             this.opts.preload_num, this.images.length);
     if (loadTop > this.loadedPhotos.high) {
-        this.list.queue(function (n) {
+        this.list.queue($.proxy(function (n) {
             var ii;
-            for (ii = that.loadedPhotos.high; ii < loadTop; ii++) {
-                that.loadEntry(that.images[ii]);
+            for (ii = this.loadedPhotos.high; ii < loadTop; ii++) {
+                this.loadEntry(this.images[ii]);
             }
             n();
-        });
+        }, this));
     }
 
     this._center(this.bottom, scimg.getThumb(), this.thumblist);
     loadThumbTop = Math.min(this.curImage + this.opts.load_thumb_num +
             this.opts.preload_num, this.images.length);
     if (loadThumbTop > this.loadedThumbs.high) {
-        this.thumblist.queue(function (n) {
+        this.thumblist.queue($.proxy(function (n) {
             var ii;
-            for (ii = that.loadedThumbs.high; ii < loadThumbTop; ii++) {
-                that.loadThumb(that.images[ii]);
+            for (ii = this.loadedThumbs.high; ii < loadThumbTop; ii++) {
+                this.loadThumb(this.images[ii]);
             }
             n();
-        });
+        }, this));
     }
 }
 
@@ -444,7 +436,6 @@ getImage: function (onLoad) {
     return this.image;
 },
 loadImage: function (onLoad) {
-    var that = this;
     var img = this.getImage(onLoad);
 
     this.entry.prepend(img);
