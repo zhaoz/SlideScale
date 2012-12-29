@@ -12,11 +12,6 @@
 
 var pathrex = /(?:\/|^)([^\/]+)$/;
 
-function preventDefault(eve) {
-  eve.preventDefault();
-}
-
-
 // from MDN. Modified.
 function cssTransitionsEnabled() {
   var domPrefixes = 'Webkit Moz O ms Khtml'.split(' ');
@@ -32,6 +27,13 @@ function cssTransitionsEnabled() {
     }
   }
   return false;
+}
+
+var CSS_TRANSITIONS_ENABLED = cssTransitionsEnabled();
+
+
+function preventDefault(eve) {
+  eve.preventDefault();
 }
 
 $.fn.slidescale = function (options) {
@@ -528,7 +530,7 @@ loadImage: function (onLoad) {
 
 
 $.slidescale.ScImage.defaults = {
-    css_transitions: cssTransitionsEnabled(),
+    css_transitions: CSS_TRANSITIONS_ENABLED,
     opacity: 0.5,
     photo_dir: "./img/photos",
     name: undefined,
@@ -551,7 +553,7 @@ $.slidescale.defaults = {
     thumb_height: 75,
     startingIndex: 0,   // index of image to start on, XXX doesn't work
     control_fade_speed: 800,
-    css_transitions: cssTransitionsEnabled(),
+    css_transitions: CSS_TRANSITIONS_ENABLED,
     photo_dir: "./img/photos",
     thumb_dir: "./img/thumbs"
 };
