@@ -12,6 +12,12 @@ div.ss .ss-list-wrapper {
     z-index: 0;
 }
 
+.ss:-webkit-full-screen { width: 100% !important; height: 100% !important; }
+.ss:-moz-full-screen { width: 100% !important; height: 100% !important; }
+.ss:-ms-full-screen { width: 100% !important; height: 100% !important; }
+.ss:-o-full-screen { width: 100% !important; height: 100% !important; }
+.ss:full-screen { width: 100%!important; height: 100% !important; }
+
 .ss ol.ss-list {
     position: relative;
     list-style-type: none;
@@ -176,9 +182,7 @@ div.ss .ss-list-wrapper {
     margin: 0px;
     background-color: black;
     z-index: 10;
-    opacity: 0.3;
-    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
-    filter: alpha(opacity=30);
+    opacity: 0;
 }
 
 .ss .ss-prev {

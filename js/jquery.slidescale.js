@@ -115,7 +115,7 @@ $.slidescale = function (container, options) {
 
     this.init();
 
-    // startingINdex only makes sense if we have that to start on
+    // startingIndex only makes sense if we have that to start on
     if (this.images.length > this.opts.startingIndex) {
         // set imageindex after image has loaded
         this.images[this.opts.startingIndex].entry.find('img').one('load',
@@ -255,7 +255,8 @@ _constructBottom: function (thumblist) {
 },
 
 _initImages: function () {
-    this.container.find('ol.ss-list > li').remove().each($.proxy(function (ii, elem) {
+    this.container.find('ol.ss-list > li').remove().each(
+        $.proxy(function (ii, elem) {
             this.addImage($(elem));
         }, this));
 },
@@ -272,6 +273,27 @@ nextImg: function (eve) {
         eve.preventDefault();
     }
     this.setImageIndex(this.curImage + 1);
+},
+
+_recalculateWidthAndHeight: function() {
+  // wiggle all the images, to make sure they resize. This is a work around
+  // for a chrome bug.
+  var images = this.list.find('img');
+  setTimeout(
+      $.proxy(function() {
+        images.css({ 'max-height': 'none', 'max-width': 'none' });
+        setTimeout(
+          $.proxy(function() {
+            images.css({ 'max-height': '100%', 'max-width': '100%' });
+
+            var width = 0;
+            this.list.children().each(function (ii, elem) {
+              width += $(elem).outerWidth();
+            });
+            this.list.width(width);
+          }, this), 30);
+      }, this), 30);
+
 },
 
 loadEntry: function (scimg) {
@@ -386,6 +408,11 @@ setImageIndex: function (ii) {
             n();
         }, this));
     }
+},
+
+makeFullScreen: function() {
+  this.container.get(0).webkitRequestFullScreen();
+  this._recalculateWidthAndHeight();
 }
 
 };
@@ -439,11 +466,9 @@ $.slidescale.ScImage = function ScImage(entry, options) {
         .data("ScImage.ss", this);
 
     this.overlay = $('<a class="ss-trans-bg" />');
-
     if (!this.css_transitions) {
       this.overlay.css('opacity', 1 - this.opacity)
     }
-
     this.overlay.appendTo(this.entry);
 
     if (this.photo_link) {
