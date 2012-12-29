@@ -233,7 +233,10 @@ init: function () {
       });
   }
 
-  $(window).resize($.proxy(this._onResize, this))
+  $(window)
+    .resize($.proxy(this._onResize, this))
+    .bind('webkitfullscreen mozfullscreen fullscreen', $.proxy(this._onResize, this));
+    ;
 },
 
 die: function () {
