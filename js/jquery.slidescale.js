@@ -20,6 +20,7 @@ function preventDefault(eve) {
 // from MDN. Modified.
 function cssTransitionsEnabled() {
   var domPrefixes = 'Webkit Moz O ms Khtml'.split(' ');
+  var elm = $('<div />').get(0);
    
   if (elm.style.animationName) {
     return true;
@@ -35,7 +36,8 @@ function cssTransitionsEnabled() {
 
 $.fn.slidescale = function (options) {
   this.each(function (ii, elem) {
-    var obj = new $.slidescale($(elem), options);
+    var elem = $(elem);
+    var obj = new $.slidescale(elem, options);
     elem.data('slidescale', obj);
   });
 
@@ -60,7 +62,7 @@ $.slidescale = function (container, options) {
     // list needs to be whatever the thumb height is subtracted from the
     // container height
     this.list
-        .addClass('ss-list');
+        .addClass('ss-list ss-image-list');
     this._onResize();
     this.list.appendTo(this.wrapper);
 
@@ -70,17 +72,21 @@ $.slidescale = function (container, options) {
         .appendTo(container);
 
     if (!this.opts.css_transitions) {
-      this._button_opacity = .find('.ss-button').css('opacity');
+      this._default_opacity = this.list.find('.ss-button').css('opacity');
+
+      if (this.opts.control_fade_speed) {
+          setTimeout($.proxy(function () {
+                  this.wrapper.find('.ss-button').not('.hover')
+                      .animate({ opacity: 0 });
+              }, this), 5000);
+      }
+    } else {
+      setTimeout($.proxy(function () {
+        this.wrapper.find('.ss-button').addClass('ss-ready');
+      }, this), 5000);
     }
 
-    if (this.opts.control_fade_speed) {
-        setTimeout($.proxy(function () {
-                this.wrapper.find('.ss-button').not('.hover')
-                    .animate({ opacity: 0 });
-            }, this), 5000);
-    }
-
-    this.thumblist = $("<ol />", { "class": "ss-thumb-list" });
+    this.thumblist = $("<ol />", { "class": "ss-thumb-list ss-image-list" });
 
     this.bottom = this._constructBottom(this.thumblist)
         .appendTo(this.container).height(this.opts.thumb_height);
@@ -131,50 +137,6 @@ init: function () {
     .delegate('.ss-list-wrapper .ss-prev', 'click.ss', $.proxy(function (eve) {
             this.container.trigger('prev');
         }, this))
-    .delegate('.ss-button', 'mouseout.ss', $.proxy(function (eve) {
-            var elem = $(eve.currentTarget);
-            elem.removeClass('hover').stop(true);
-            if (this.opts.control_fade_speed) {
-                elem.animate({ opacity: 0 },
-                    this.opts.control_fade_speed);
-            }
-        }, this))
-    .delegate('.ss-button', 'mouseenter.ss', $.proxy(function (eve) {
-            var elem = $(eve.currentTarget);
-            elem.addClass('hover').stop(true)
-            if (this.opts.control_fade_speed) {
-                elem.animate({ opacity: this._button_opacity },
-                    this.opts.control_fade_speed);
-            }
-        }, this))
-
-    .delegate('ol li', 'mouseleave.ss', $.proxy(function (eve) {
-            var elem = $(eve.currentTarget).addClass('hover');
-
-            if (elem.hasClass('ss-current')) {
-                return;
-            }
-
-            if (elem.parent().hasClass('ss-list')) {
-                elem = elem.children('.ss-trans-bg');
-            }
-            elem.stop(true).animate({ opacity: this._button_opacity });
-        }, this))
-    .delegate('ol li', 'mouseenter.ss', function (eve) {
-            var elem = $(eve.currentTarget).addClass('hover');
-
-            if (elem.hasClass('ss-current')) {
-                return;
-            }
-
-            var opacity = 1;
-
-            if (elem.parent().hasClass('ss-list')) {
-                elem = elem.children('.ss-trans-bg');
-                opacity = 0;
-            }
-            elem.stop(true).animate({ opacity: opacity });
-        })
 
     .delegate('.ss-thumb-list li, .ss-list li', 'click.ss',
         $.proxy(function (eve) {
@@ -188,35 +150,86 @@ init: function () {
             }
         })
 
-    .delegate('.ss-list li', 'unsetCurrent.ss', function (eve) {
-            var elem = $(eve.currentTarget);
-            var scimg = elem.data('ScImage.ss');
+    .delegate('.ss-list li', 'unsetCurrent.ss', $.proxy(function (eve) {
+        var elem = $(eve.currentTarget);
+        var scimg = elem.data('ScImage.ss');
 
-            scimg.entry.removeClass('ss-current ss-centered');
-            scimg.getThumb().removeClass('ss-current ss-centered');
-            if (scimg.caption) {
-                scimg.caption.hide('slide', { direction: "down" }, 'fast');
-            }
+        scimg.entry.removeClass('ss-current ss-centered');
+        scimg.getThumb().removeClass('ss-current ss-centered');
+        if (scimg.caption) {
+          scimg.caption.hide('slide', { direction: "down" }, 'fast');
+        }
 
-            scimg.overlay.animate({ opacity: scimg.opacity });
-            scimg.getThumb().animate({ opacity: scimg.opacity });
-        })
+        if (!this.opts.css_transitions) {
+          scimg.overlay.animate({ opacity: scimg.opacity });
+          scimg.getThumb().animate({ opacity: scimg.opacity });
+        }
+    }, this))
 
-    .delegate('.ss-list li', 'setCurrent.ss', function (eve) {
-            var elem = $(eve.currentTarget);
-            var scimg = elem.data('ScImage.ss');
+    .delegate('.ss-list li', 'setCurrent.ss', $.proxy(function (eve) {
+        var elem = $(eve.currentTarget);
+        var scimg = elem.data('ScImage.ss');
 
-            scimg.entry.addClass('ss-current');
-            scimg.getThumb().addClass('ss-current');
+        scimg.entry.addClass('ss-current');
+        scimg.getThumb().addClass('ss-current');
 
-            if (scimg.caption) {
-                scimg.caption.show('slide', { direction: "down" }, 'fast');
-            }
+        if (scimg.caption) {
+            scimg.caption.show('slide', { direction: "down" }, 'fast');
+        }
 
-            scimg.overlay.animate({ opacity: 0 });
-            scimg.getThumb().animate({ opacity: 1 });
-        })
+        if (!this.opts.css_transitions) {
+          scimg.overlay.animate({ opacity: 0 });
+          scimg.getThumb().animate({ opacity: 1 });
+        }
+    }, this))
   ;
+
+  if (!this.opts.css_transitions) {
+    this.container
+      .delegate('.ss-button', 'mouseout.ss', $.proxy(function (eve) {
+              var elem = $(eve.currentTarget);
+              elem.removeClass('hover').stop(true);
+              if (this.opts.control_fade_speed) {
+                  elem.animate({ opacity: 0 },
+                      this.opts.control_fade_speed);
+              }
+          }, this))
+      .delegate('.ss-button', 'mouseenter.ss', $.proxy(function (eve) {
+          var elem = $(eve.currentTarget);
+          elem.addClass('hover').stop(true)
+          if (this.opts.control_fade_speed) {
+            elem.animate({ opacity: this._default_opacity },
+              this.opts.control_fade_speed);
+          }
+        }, this))
+      .delegate('ol li', 'mouseleave.ss', $.proxy(function (eve) {
+          var elem = $(eve.currentTarget).addClass('hover');
+
+          if (elem.hasClass('ss-current')) {
+            return;
+          }
+
+          if (elem.parent().hasClass('ss-list')) {
+            elem = elem.children('.ss-trans-bg');
+          }
+          elem.stop(true).animate({ opacity: this._default_opacity });
+      }, this))
+      .delegate('ol li', 'mouseenter.ss', function (eve) {
+          var elem = $(eve.currentTarget).addClass('hover');
+
+          if (elem.hasClass('ss-current')) {
+            return;
+          }
+
+          var opacity = 1;
+
+          if (elem.parent().hasClass('ss-list')) {
+            elem = elem.children('.ss-trans-bg');
+            opacity = 0;
+          }
+          elem.stop(true).animate({ opacity: opacity });
+      });
+  }
 
   $(window).resize($.proxy(this._onResize, this))
 },
@@ -375,7 +388,10 @@ $.slidescale.ScImage = function ScImage(entry, options) {
     $.extend(this, $.slidescale.ScImage.defaults, options || {});
     if (entry instanceof jQuery) {
         img = entry.find('img').remove();
-        this.thumb = $('<li />', { html: img }).css('opacity', this.opacity);
+        this.thumb = $('<li />', { html: img })
+        if (!this.css_transitions) {
+          this.thumb.css('opacity', this.opacity);
+        }
         this.caption = entry.find('p').remove();
 
         this.name = img.attr('src').match(pathrex)[1];
@@ -415,9 +431,13 @@ $.slidescale.ScImage = function ScImage(entry, options) {
     this.entry
         .data("ScImage.ss", this);
 
-    this.overlay = $('<a class="ss-trans-bg" />')
-        .css('opacity', 1 - this.opacity)
-        .appendTo(this.entry);
+    this.overlay = $('<a class="ss-trans-bg" />');
+
+    if (!this.css_transitions) {
+      this.overlay.css('opacity', 1 - this.opacity)
+    }
+
+    this.overlay.appendTo(this.entry);
 
     if (this.photo_link) {
         this.overlay.attr('href', this.photo_link);
@@ -444,7 +464,10 @@ getThumb: function () {
         }
         thumb_img.attr('src', this.thumb_path);
 
-        this.thumb = $('<li />').css('opacity', this.opacity);
+        this.thumb = $('<li />');
+        if (!this.css_transitions) {
+          this.thumb.css('opacity', this.opacity);
+        }
         this.thumb.append(thumb_img);
     }
     return this.thumb;
@@ -473,6 +496,8 @@ loadImage: function (onLoad) {
 
 
 $.slidescale.ScImage.defaults = {
+    css_transitions: cssTransitionsEnabled(),
+    opacity: 0.5,
     photo_dir: "./img/photos",
     name: undefined,
     thumb_dir: "./img/thumbs",

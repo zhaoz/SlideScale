@@ -55,12 +55,10 @@ Options
 
 .SlideScale Options
 
+css_transitions::
+    Defaults to true if available.
 control_fade_speed::
-    Control fade speed, passed directly to animate, falsey for no fading.
-gallery_height::
-    Height of the photo area
-gallery_width::
-    Width of the photo area
+    Control fade speed, passed directly to animate, falsey for no fading. Only used if css transitions are not enabled.
 thumb_height::
     height of thumbnail area
 opacity::

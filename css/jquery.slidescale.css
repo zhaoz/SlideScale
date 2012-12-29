@@ -49,6 +49,22 @@ div.ss .ss-list-wrapper {
     display: block;
 }
 
+.ss .ss-image-list li {
+  opacity: 0.5;
+  -o-transition: opacity 0.5s linear;
+  -moz-transition: opacity 0.5s linear;
+  -webkit-transition: opacity 0.5s linear;
+  transition: opacity 0.5s linear;
+}
+
+.ss .ss-image-list li:hover {
+  opacity: 1;
+}
+
+.ss .ss-image-list li.ss-current {
+  opacity: 1;
+}
+
 .ss ol.ss-list li .ss-caption {
     position: absolute;
     bottom: 0px;
@@ -107,12 +123,25 @@ div.ss .ss-list-wrapper {
 }
 
 .ss .ss-button {
-    top: 0px;
-    height: 100%;
-    z-index: 100;
-    position: absolute;
-    background-repeat: no-repeat;
-    opacity: 0.5;
+  top: 0px;
+  height: 100%;
+  z-index: 100;
+  position: absolute;
+  background-repeat: no-repeat;
+  -o-transition: opacity 0.5s linear;
+  -moz-transition: opacity 0.5s linear;
+  -webkit-transition: opacity 0.5s linear;
+  transition: opacity 0.5s linear;
+}
+
+.ss .ss-button.ss-ready {
+  opacity: 0;
+}
+
+.ss .ss-button,
+.ss .ss-button:hover,
+.ss .ss-button.ss-ready:hover {
+  opacity: 0.5;
 }
 
 .ss div.ss-bottom .ss-button {
