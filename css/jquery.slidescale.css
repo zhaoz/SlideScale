@@ -49,12 +49,19 @@ div.ss .ss-list-wrapper {
     display: block;
 }
 
+.ss .ss-image-list {
+  -o-transition: left 0.3s ease-out;
+  -moz-transition: left 0.3s ease-out;
+  -webkit-transition: left 0.3s ease-out;
+  transition: left 0.3s ease-out;
+}
+
 .ss .ss-image-list li {
   opacity: 0.5;
-  -o-transition: opacity 0.5s linear;
-  -moz-transition: opacity 0.5s linear;
-  -webkit-transition: opacity 0.5s linear;
-  transition: opacity 0.5s linear;
+  -o-transition: opacity 0.5s ease-in;
+  -moz-transition: opacity 0.5s ease-in;
+  -webkit-transition: opacity 0.5s ease-in;
+  transition: opacity 0.5s ease-in;
 }
 
 .ss .ss-image-list li:hover {
@@ -128,10 +135,10 @@ div.ss .ss-list-wrapper {
   z-index: 100;
   position: absolute;
   background-repeat: no-repeat;
-  -o-transition: opacity 0.5s linear;
-  -moz-transition: opacity 0.5s linear;
-  -webkit-transition: opacity 0.5s linear;
-  transition: opacity 0.5s linear;
+  -o-transition: opacity 0.5s ease-out;
+  -moz-transition: opacity 0.5s ease-out;
+  -webkit-transition: opacity 0.5s ease-out;
+  transition: opacity 0.5s ease-out;
 }
 
 .ss .ss-button.ss-ready {

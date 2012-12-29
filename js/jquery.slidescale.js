@@ -47,6 +47,17 @@ $.fn.slidescale = function (options) {
 $.slidescale = function (container, options) {
     this.opts = $.extend({}, $.slidescale.defaults, options);
 
+    this.images = [];
+
+    this.loadedPhotos = {
+        bottom: 0,
+        high: 0
+    };
+    this.loadedThumbs = {
+        bottom: 0,
+        high: 0
+    };
+
     this.container = container
         .addClass('ss')
         .bind('dragstart', preventDefault)
@@ -90,17 +101,6 @@ $.slidescale = function (container, options) {
 
     this.bottom = this._constructBottom(this.thumblist)
         .appendTo(this.container).height(this.opts.thumb_height);
-
-    this.images = [];
-
-    this.loadedPhotos = {
-        bottom: 0,
-        high: 0
-    };
-    this.loadedThumbs = {
-        bottom: 0,
-        high: 0
-    };
 
     this.curImage = -1;
 
@@ -333,9 +333,16 @@ _center: function (container, entry, list) {
     offset += container.innerWidth() / 2;
     offset -= entry.outerWidth() / 2;
 
-    list.stop(false, true).animate({left: offset}, function () {
-                entry.addClass('ss-centered');
-            });
+    if (this.opts.css_transitions) {
+      list.css('left', offset);
+
+      // TODO add class after animation end?
+      entry.addClass('ss-centered');
+    } else {
+      list.stop(false, true).animate({left: offset}, function () {
+                  entry.addClass('ss-centered');
+              });
+    }
 },
 
 setImageIndex: function (ii) {
