@@ -185,6 +185,10 @@ div.ss .ss-list-wrapper {
     opacity: 0;
 }
 
+.ss .ss-caption .ss-trans-bg {
+  opacity: 0.5;
+}
+
 .ss .ss-prev {
     left: 0px;
     background-position: center center;
