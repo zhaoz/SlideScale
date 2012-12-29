@@ -412,8 +412,12 @@ makeFullScreen: function() {
 };
 
 $.slidescale.ScImage = function ScImage(entry, options) {
-  var img;
+  var img = null;
   $.extend(this, $.slidescale.ScImage.defaults, options || {});
+
+  this.original_height = 0;
+  this.original_width = 0;
+
   if (entry instanceof jQuery) {
     img = entry.find('img').remove();
     this.thumb = $('<li />', { html: img })
@@ -498,12 +502,13 @@ getThumb: function () {
   }
   return this.thumb;
 },
-getImage: function (onLoad) {
+_getImage: function(deferred) {
   if (!this.image) {
-    this.image = $('<img />', {
-      "class": "ss-photo"});
-    if (onLoad) {
-      this.image.load(onLoad);
+    this.image = $('<img />');
+    if (deferred) {
+      this.image.load($.proxy(function(eve) {
+        deferred.resolve(this.image);
+      }, this));
     }
     if (this.image_load_cb) {
       this.image.load(this.image_load_cb);
@@ -512,11 +517,24 @@ getImage: function (onLoad) {
   }
   return this.image;
 },
-loadImage: function (onLoad) {
-  var img = this.getImage(onLoad);
+/**
+ * @return {$.Deferred} called when image is loaded.
+ */
+loadImage: function() {
+  var loaded = new $.Deferred();
+  var img = this._getImage(loaded);
+
+  loaded.done($.proxy(function() {
+    var imgElement = img.get(0);
+    this.original_height = imgElement.height;
+    this.original_width = imgElement.width;
+    img.addClass('ss-photo');
+    this.entry.addClass('ss-loaded');
+  }, this));
 
   this.entry.prepend(img);
-  this.entry.addClass('ss-loaded');
+
+  return loaded;
 }
 };
 
