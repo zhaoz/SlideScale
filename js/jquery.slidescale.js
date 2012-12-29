@@ -75,9 +75,9 @@ $.slidescale = function (container, options) {
   // list needs to be whatever the thumb height is subtracted from the
   // container height
   this.list
-    .addClass('ss-list ss-image-list');
-  this._onResize();
-  this.list.appendTo(this.wrapper);
+    .addClass('ss-list ss-image-list')
+    .appendTo(this.wrapper);
+  setTimeout($.proxy(this._onResize, this), 0);
 
   this.wrapper
     .append('<div class="ss-prev ss-button" />')
@@ -125,6 +125,8 @@ $.slidescale = function (container, options) {
           this.setImageIndex(this.opts.startingIndex);
         }, this));
   }
+
+  this.container.addClass('ready');
 };
 
 $.slidescale.prototype = {
@@ -231,12 +233,12 @@ init: function () {
   }
 
   this.list.on('transitionend MSTransitionEnd webkitTransitionEnd oTransitionEnd',
-      function(eve) {
+      $.proxy(function(eve) {
         // set centered class on curImate
-        var scimg = this.images[this.curImate];
+        var scimg = this.images[this.curImage];
         scimg.entry.addClass('ss-centered');
         scimg.getThumb().addClass('ss-centered');
-      });
+      }, this));
 
   $(window)
     .resize($.proxy(this._onResize, this))
@@ -253,9 +255,9 @@ die: function () {
 },
 
 _onResize: function() {
-  // TODO 20 is arbitrary here, can we measure this?
-  var height = this.container.innerHeight() - this.opts.thumb_height - 20;
-  this.list.height(height);
+  var height = this.container.height() - this.opts.thumb_height;
+  var margins = this.wrapper.outerHeight(true) - this.wrapper.height();
+  this.list.height(height - margins);
 },
 
 _constructBottom: function (thumblist) {

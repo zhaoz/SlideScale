@@ -1,11 +1,20 @@
-div.ss {
+.ss {
   position: relative;
   overflow: hidden;
   background: black;
   z-index: 0;
+  opacity: 0;
+  -o-transition: opacity 0.3s ease-out;
+  -moz-transition: opacity 0.3s ease-out;
+  -webkit-transition: opacity 0.3s ease-out;
+  transition: opacity 0.3s ease-out;
 }
 
-div.ss .ss-list-wrapper {
+.ss.ready {
+  opacity: 1;
+}
+
+.ss .ss-list-wrapper {
   position: relative;
   overflow: hidden;
   margin-bottom: 20px;
@@ -130,6 +139,7 @@ div.ss .ss-list-wrapper {
 .ss .ss-thumb-list li img {
   max-height: 100%;
   max-width: 100%;
+  position: relative;
 }
 
 .ss div.ss-list-wrapper .ss-button {
