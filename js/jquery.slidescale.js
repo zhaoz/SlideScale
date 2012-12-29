@@ -7,6 +7,7 @@
  * @version 0.3
  *
  * FIXME centering doesn't seem to be working on stream.html (initially)
+ * FIXME weird chrome opacity bug causing pixel shift to the right on transitions.
  * TODO Canvas image resize with data url for images? May improve performance.
  */
 (function ($) {
