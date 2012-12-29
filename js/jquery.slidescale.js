@@ -7,6 +7,7 @@
  * @version 0.3
  *
  * FIXME centering doesn't seem to be working on stream.html (initially)
+ * TODO Canvas image resize with data url for images? May improve performance.
  */
 (function ($) {
 
@@ -291,14 +292,20 @@ _recalculateWidthAndHeight: function() {
   // wiggle all the images, to make sure they resize. This is a work around
   // for a chrome bug.
   var images = this.list.find('img');
+
+  // XXX Holy crap this sucks. Since max-height is not being honored as
+  // expected on full screen, we have to rejigger everything.
+  // TODO img container's are not being touched, their width's are not
+  // changing and may need some resizing.
+  // TODO if this is required, maybe animationrequestframe is better.
   setTimeout(
       $.proxy(function() {
         images.css({ 'max-height': 'none', 'max-width': 'none' });
         setTimeout(
           $.proxy(function() {
             images.css({ 'max-height': '100%', 'max-width': '100%' });
-          }, this), 30);
-      }, this), 30);
+          }, this), 20);
+      }, this), 20);
 },
 
 loadEntry: function (scimg) {
