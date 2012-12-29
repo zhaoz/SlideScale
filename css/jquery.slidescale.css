@@ -1,15 +1,15 @@
 div.ss {
-    position: relative;
-    overflow: hidden;
-    background: black;
-    z-index: 0;
+  position: relative;
+  overflow: hidden;
+  background: black;
+  z-index: 0;
 }
 
 div.ss .ss-list-wrapper {
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 20px;
-    z-index: 0;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20px;
+  z-index: 0;
 }
 
 .ss:-webkit-full-screen { width: 100% !important; height: 100% !important; }
@@ -19,22 +19,22 @@ div.ss .ss-list-wrapper {
 .ss:full-screen { width: 100%!important; height: 100% !important; }
 
 .ss ol.ss-list {
-    position: relative;
-    list-style-type: none;
-    padding: 0px;
-    margin: 0px;
-    top: 0px;
-    overflow: hidden;
-    z-index: 0;
+  position: relative;
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px;
+  top: 0px;
+  overflow: hidden;
+  z-index: 0;
 }
 
 .ss ol.ss-list li {
-    padding: 0px;
-    margin: 0px 10px;
-    float: left;
-    height: 100%;
-    position: relative;
-    z-index: 0;
+  padding: 0px;
+  margin: 0px 10px;
+  float: left;
+  height: 100%;
+  position: relative;
+  z-index: 0;
 }
 
 .ss ol.ss-list li .ss-photo {
@@ -43,16 +43,16 @@ div.ss .ss-list-wrapper {
 }
 
 .ss li.ss-current {
-    display: block;
-    z-index: 2;
+  display: block;
+  z-index: 2;
 }
 
 .ss .ss-list li {
-    display: none;
+  display: none;
 }
 
 .ss .ss-list li.ss-loaded {
-    display: block;
+  display: block;
 }
 
 .ss .ss-image-list {
@@ -79,49 +79,49 @@ div.ss .ss-list-wrapper {
 }
 
 .ss ol.ss-list li .ss-caption {
-    position: absolute;
-    bottom: 0px;
-    margin: 0px;
-    width: 100%;
-    left: 0px;
-    text-align: center;
-    color: white;
-    font-weight: bold;
-    display: none;
-    z-index: 20;
+  position: absolute;
+  bottom: 0px;
+  margin: 0px;
+  width: 100%;
+  left: 0px;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  display: none;
+  z-index: 20;
 }
 
 .ss ol.ss-list li .ss-caption a {
-    display: block;
-    height: 100%;
-    width: 100%;
-    position: relative;
-    text-decoration: none;
-    z-index: 20;
-    color: white;
+  display: block;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  text-decoration: none;
+  z-index: 20;
+  color: white;
 }
 
 .ss-caption a:link {
-    text-decoration: none;
-    color: white;
+  text-decoration: none;
+  color: white;
 }
 
 
 .ss ol.ss-list li .ss-caption p {
-    padding: 0.5em 0;
-    z-index: 20;
-    position: relative;
+  padding: 0.5em 0;
+  z-index: 20;
+  position: relative;
 }
 
 .ss div.ss-bottom {
-    clear: left;
-    overflow: hidden;
-    position: relative;
+  clear: left;
+  overflow: hidden;
+  position: relative;
 }
 
 .ss .ss-thumb-list li {
-    position: relative;
-    margin: 0px 2px;
+  position: relative;
+  margin: 0px 2px;
 }
 
 .ss .ss-thumb-list li img {
@@ -130,9 +130,9 @@ div.ss .ss-list-wrapper {
 }
 
 .ss div.ss-list-wrapper .ss-button {
-    background-color: #CCC;
-    color: white;
-    width: 60px;
+  background-color: #CCC;
+  color: white;
+  width: 60px;
 }
 
 .ss .ss-button {
@@ -158,31 +158,31 @@ div.ss .ss-list-wrapper {
 }
 
 .ss div.ss-bottom .ss-button {
-    background: #CCC;
-    color: white;
+  background: #CCC;
+  color: white;
 }
 
 .ss .ss-list-wrapper .ss-prev {
-    background-image: url("../img/left_arrow.png");
+  background-image: url("../img/left_arrow.png");
 }
 
 .ss .ss-list-wrapper .ss-next {
-    background-image: url("../img/right_arrow.png");
+  background-image: url("../img/right_arrow.png");
 }
 
 .ss-trans-bg {
-    padding: 0px;
-    margin: 0px;
-    display: block;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    margin: 0px;
-    background-color: black;
-    z-index: 10;
-    opacity: 0;
+  padding: 0px;
+  margin: 0px;
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  margin: 0px;
+  background-color: black;
+  z-index: 10;
+  opacity: 0;
 }
 
 .ss .ss-caption .ss-trans-bg {
@@ -190,34 +190,34 @@ div.ss .ss-list-wrapper {
 }
 
 .ss .ss-prev {
-    left: 0px;
-    background-position: center center;
+  left: 0px;
+  background-position: center center;
 }
 
 .ss .ss-next {
-    right: 0px;
-    background-position: center center;
+  right: 0px;
+  background-position: center center;
 }
 
 .ss div.ss-bottom * {
-    top: 0px;
+  top: 0px;
 }
 
 .ss br.clear {
-    font-size: 0px;
-    height: 0px;
-    clear: both;
-    float: none;
+  font-size: 0px;
+  height: 0px;
+  clear: both;
+  float: none;
 }
 
 .ss ol.ss-thumb-list {
-    position: absolute;
-    list-style-type: none;
-    padding: 0px;
-    margin: 0px;
+  position: absolute;
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px;
 }
 
 .ss ol.ss-thumb-list li {
-    float: left;
+  float: left;
 }
 
