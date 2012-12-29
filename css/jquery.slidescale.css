@@ -43,7 +43,7 @@ div.ss .ss-list-wrapper {
 }
 
 .ss li.ss-current {
-  display: block;
+  display: inline-block;
   z-index: 2;
 }
 
@@ -52,10 +52,12 @@ div.ss .ss-list-wrapper {
 }
 
 .ss .ss-list li.ss-loaded {
-  display: block;
+  display: inline-block;
 }
 
 .ss .ss-image-list {
+  display: inline-block;
+  white-space: nowrap;
   -o-transition: left 0.3s ease-out;
   -moz-transition: left 0.3s ease-out;
   -webkit-transition: left 0.3s ease-out;
@@ -64,6 +66,7 @@ div.ss .ss-list-wrapper {
 
 .ss .ss-image-list li {
   opacity: 0.5;
+  display: inline-block;
   -o-transition: opacity 0.3s ease-in;
   -moz-transition: opacity 0.3s ease-in;
   -webkit-transition: opacity 0.3s ease-in;
@@ -216,8 +219,3 @@ div.ss .ss-list-wrapper {
   padding: 0px;
   margin: 0px;
 }
-
-.ss ol.ss-thumb-list li {
-  float: left;
-}
-

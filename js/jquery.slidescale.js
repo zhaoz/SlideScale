@@ -133,57 +133,54 @@ init: function () {
   this.container
     .bind('next.ss', $.proxy(this.nextImg, this))
     .bind('prev.ss', $.proxy(this.prevImg, this))
-    .delegate('.ss-list-wrapper .ss-next', 'click.ss', $.proxy(function (eve) {
-      this.container.trigger('next');
+    .delegate('.ss-list-wrapper .ss-next', 'click.ss',
+        $.proxy(function (eve) {
+          this.container.trigger('next');
+        }, this))
+    .delegate('.ss-list-wrapper .ss-prev', 'click.ss',
+        $.proxy(function (eve) {
+          this.container.trigger('prev');
+        }, this))
+    .delegate('.ss-image-list li', 'click.ss',
+        $.proxy(function (eve) {
+          var elem = $(eve.currentTarget);
+          this.setImageIndex(elem.prevAll().size());
+          if (!elem.hasClass('ss-centered')) {
+            eve.preventDefault();
+          }
+        }, this))
+    .delegate('.ss-list li', 'unsetCurrent.ss', $.proxy(function (eve) {
+      var elem = $(eve.currentTarget);
+      var scimg = elem.data('ScImage.ss');
+
+      scimg.entry.removeClass('ss-current ss-centered');
+      scimg.getThumb().removeClass('ss-current ss-centered');
+      if (scimg.caption) {
+        scimg.caption.hide('slide', { direction: "down" }, 'fast');
+      }
+
+      if (!this.opts.css_transitions) {
+        scimg.overlay.animate({ opacity: scimg.opacity });
+        scimg.getThumb().animate({ opacity: scimg.opacity });
+      }
     }, this))
-  .delegate('.ss-list-wrapper .ss-prev', 'click.ss', $.proxy(function (eve) {
-    this.container.trigger('prev');
-  }, this))
 
-  .delegate('.ss-thumb-list li, .ss-list li', 'click.ss',
-      $.proxy(function (eve) {
-        this.setImageIndex($(eve.currentTarget).prevAll().size());
-      }, this))
+    .delegate('.ss-list li', 'setCurrent.ss', $.proxy(function (eve) {
+      var elem = $(eve.currentTarget);
+      var scimg = elem.data('ScImage.ss');
 
-  .delegate('.ss-list li', 'click.ss', function (eve) {
-    var elem = $(eve.currentTarget);
-    if (!elem.hasClass('ss-centered')) {
-      eve.preventDefault();
-    }
-  })
+      scimg.entry.addClass('ss-current');
+      scimg.getThumb().addClass('ss-current');
 
-  .delegate('.ss-list li', 'unsetCurrent.ss', $.proxy(function (eve) {
-    var elem = $(eve.currentTarget);
-    var scimg = elem.data('ScImage.ss');
+      if (scimg.caption) {
+        scimg.caption.show('slide', { direction: "down" }, 'fast');
+      }
 
-    scimg.entry.removeClass('ss-current ss-centered');
-    scimg.getThumb().removeClass('ss-current ss-centered');
-    if (scimg.caption) {
-      scimg.caption.hide('slide', { direction: "down" }, 'fast');
-    }
-
-    if (!this.opts.css_transitions) {
-      scimg.overlay.animate({ opacity: scimg.opacity });
-      scimg.getThumb().animate({ opacity: scimg.opacity });
-    }
-  }, this))
-
-  .delegate('.ss-list li', 'setCurrent.ss', $.proxy(function (eve) {
-    var elem = $(eve.currentTarget);
-    var scimg = elem.data('ScImage.ss');
-
-    scimg.entry.addClass('ss-current');
-    scimg.getThumb().addClass('ss-current');
-
-    if (scimg.caption) {
-      scimg.caption.show('slide', { direction: "down" }, 'fast');
-    }
-
-    if (!this.opts.css_transitions) {
-      scimg.overlay.animate({ opacity: 0 });
-      scimg.getThumb().animate({ opacity: 1 });
-    }
-  }, this))
+      if (!this.opts.css_transitions) {
+        scimg.overlay.animate({ opacity: 0 });
+        scimg.getThumb().animate({ opacity: 1 });
+      }
+    }, this))
   ;
 
   if (!this.opts.css_transitions) {
@@ -232,6 +229,14 @@ init: function () {
       elem.stop(true).animate({ opacity: opacity });
     });
   }
+
+  this.list.on('transitionend MSTransitionEnd webkitTransitionEnd oTransitionEnd',
+      function(eve) {
+        // set centered class on curImate
+        var scimg = this.images[this.curImate];
+        scimg.entry.addClass('ss-centered');
+        scimg.getThumb().addClass('ss-centered');
+      });
 
   $(window)
     .resize($.proxy(this._onResize, this))
@@ -290,23 +295,12 @@ _recalculateWidthAndHeight: function() {
         setTimeout(
           $.proxy(function() {
             images.css({ 'max-height': '100%', 'max-width': '100%' });
-
-            var width = 0;
-            this.list.children().each(function (ii, elem) {
-              width += $(elem).outerWidth(true);
-            });
-            this.list.width(width);
           }, this), 30);
       }, this), 30);
 },
 
 loadEntry: function (scimg) {
-  var widthResize = $.proxy(function() {
-    var width = this.list.width() + scimg.entry.outerWidth(true);
-    this.list.width(width);
-  }, this);
-
-  scimg.loadImage(widthResize);
+  scimg.loadImage();
   this.loadedPhotos.high++;
 },
 
@@ -316,17 +310,6 @@ loadThumb: function (scimg) {
 
   this.thumblist.append(thumb);
   this.loadedThumbs.high++;
-
-  var widthResize = $.proxy(function() {
-    this.thumblist.width(this.thumblist.width() +
-      scimg.getThumb().outerWidth(true));
-  }, this);
-
-  if (img.get(0).complete) {
-    widthResize();
-  }
-
-  img.one('load', widthResize);
 },
 
 /**
@@ -361,9 +344,6 @@ _center: function (container, entry, list) {
 
   if (this.opts.css_transitions) {
     list.css('left', offset);
-
-    // TODO add class after animation end?
-    entry.addClass('ss-centered');
   } else {
     list.stop(false, true).animate({left: offset}, function () {
       entry.addClass('ss-centered');
