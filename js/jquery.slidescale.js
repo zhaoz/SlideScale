@@ -415,8 +415,10 @@ $.slidescale.ScImage = function ScImage(entry, options) {
   var img = null;
   $.extend(this, $.slidescale.ScImage.defaults, options || {});
 
-  this.original_height = 0;
-  this.original_width = 0;
+  this.naturalHeight = 0;
+  this.naturalWidth = 0;
+  this.naturalThumbHeight = 0;
+  this.naturalThumbWidth = 0;
 
   if (entry instanceof jQuery) {
     img = entry.find('img').remove();
@@ -486,19 +488,28 @@ $.slidescale.ScImage = function ScImage(entry, options) {
 
 $.slidescale.ScImage.prototype = {
 getThumb: function () {
-  var thumb_img;
+  var thumbImg;
   if (!this.thumb) {
-    thumb_img = $('<img />');
+    thumbImg = $('<img />');
+
+    var deferred = new $.Deferred();
     if (this.thumb_load_cb) {
-      thumb_img.load(this.thumb_load_cb);
+      deferred.done(this.thumb_load_cb);
     }
-    thumb_img.attr('src', this.thumb_path);
+
+    thumbImg.load($.proxy(function(eve) {
+      this.naturalThumbWidth = thumbImg.width;
+      this.naturalThumbHeight = thumbImg.height;
+      deferred.resolve(thumbImg);
+    }, this));
+
+    thumbImg.attr('src', this.thumb_path);
 
     this.thumb = $('<li />');
     if (!this.css_transitions) {
       this.thumb.css('opacity', this.opacity);
     }
-    this.thumb.append(thumb_img);
+    this.thumb.append(thumbImg);
   }
   return this.thumb;
 },
@@ -526,8 +537,8 @@ loadImage: function() {
 
   loaded.done($.proxy(function() {
     var imgElement = img.get(0);
-    this.original_height = imgElement.height;
-    this.original_width = imgElement.width;
+    this.naturalHeight = imgElement.height;
+    this.naturalWidth = imgElement.width;
     img.addClass('ss-photo');
     this.entry.addClass('ss-loaded');
   }, this));
