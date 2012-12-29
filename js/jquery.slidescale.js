@@ -290,12 +290,11 @@ _recalculateWidthAndHeight: function() {
 
             var width = 0;
             this.list.children().each(function (ii, elem) {
-              width += $(elem).outerWidth();
+              width += $(elem).outerWidth(true);
             });
             this.list.width(width);
           }, this), 30);
       }, this), 30);
-
 },
 
 loadEntry: function (scimg) {
