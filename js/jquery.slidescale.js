@@ -6,8 +6,8 @@
  * @author Ziling Zhao <zilingzhao@gmail.com>
  * @version 0.3
  *
+ * FIXME opacity borkage in IE
  * FIXME centering doesn't seem to be working on stream.html (initially)
- * FIXME weird chrome opacity bug causing pixel shift to the right on transitions.
  * TODO Canvas image resize with data url for images? May improve performance.
  */
 (function ($) {
@@ -86,12 +86,10 @@ $.slidescale = function (container, options) {
     .appendTo(container);
 
   if (!this.opts.css_transitions) {
-    this._default_opacity = this.list.find('.ss-button').css('opacity');
-
     if (this.opts.control_fade_speed) {
       setTimeout($.proxy(function () {
         this.wrapper.find('.ss-button').not('.hover')
-        .animate({ opacity: 0 });
+          .animate({ opacity: 0 });
       }, this), 5000);
     }
   } else {
@@ -162,11 +160,6 @@ init: function () {
       if (scimg.caption) {
         scimg.caption.hide('slide', { direction: "down" }, 'fast');
       }
-
-      if (!this.opts.css_transitions) {
-        scimg.entry.animate({ opacity: scimg.opacity });
-        scimg.getThumb().animate({ opacity: scimg.opacity });
-      }
     }, this))
 
     .delegate('.ss-list li', 'setCurrent.ss', $.proxy(function (eve) {
@@ -178,11 +171,6 @@ init: function () {
 
       if (scimg.caption) {
         scimg.caption.show('slide', { direction: "down" }, 'fast');
-      }
-
-      if (!this.opts.css_transitions) {
-        scimg.entry.animate({ opacity: 0 });
-        scimg.getThumb().animate({ opacity: 1 });
       }
     }, this))
   ;
@@ -201,37 +189,10 @@ init: function () {
       var elem = $(eve.currentTarget);
       elem.addClass('hover').stop(true)
       if (this.opts.control_fade_speed) {
-        elem.animate({ opacity: this._default_opacity },
+        elem.animate({ opacity: this.opts.opacity },
           this.opts.control_fade_speed);
       }
-    }, this))
-    .delegate('ol li', 'mouseleave.ss', $.proxy(function (eve) {
-      var elem = $(eve.currentTarget).addClass('hover');
-
-      if (elem.hasClass('ss-current')) {
-        return;
-      }
-
-      if (elem.parent().hasClass('ss-list')) {
-        elem = elem.children('.ss-trans-bg');
-      }
-      elem.stop(true).animate({ opacity: this._default_opacity });
-    }, this))
-    .delegate('ol li', 'mouseenter.ss', function (eve) {
-      var elem = $(eve.currentTarget).addClass('hover');
-
-      if (elem.hasClass('ss-current')) {
-        return;
-      }
-
-      var opacity = 1;
-
-      if (elem.parent().hasClass('ss-list')) {
-        elem = elem.children('.ss-trans-bg');
-        opacity = 0;
-      }
-      elem.stop(true).animate({ opacity: opacity });
-    });
+    }, this));
   }
 
   this.list.on('transitionend MSTransitionEnd webkitTransitionEnd oTransitionEnd',
@@ -454,10 +415,7 @@ $.slidescale.ScImage = function ScImage(entry, options) {
 
   if (entry instanceof jQuery) {
     img = entry.find('img').remove();
-    this.thumb = $('<li />', { html: img })
-      if (!this.css_transitions) {
-        this.thumb.css('opacity', this.opacity);
-      }
+    this.thumb = $('<li />', { html: img });
     this.caption = entry.find('p').remove();
 
     this.name = img.attr('src').match(pathrex)[1];
@@ -486,11 +444,8 @@ $.slidescale.ScImage = function ScImage(entry, options) {
   this.overlay = $('<div class="ss-image-overlay" />')
     .appendTo(this.entry);
 
-  this.linkOverlay = $('<a class="ss-trans-bg" />');
-  if (!this.css_transitions) {
-    this.linkOverlay.css('opacity', 1 - this.opacity)
-  }
-  this.linkOverlay.appendTo(this.overlay);
+  this.linkOverlay = $('<a class="ss-trans-bg" />')
+    .appendTo(this.overlay);
 
   if (this.photo_link) {
     this.linkOverlay.attr('href', this.photo_link);
@@ -540,11 +495,8 @@ getThumb: function () {
 
     thumbImg.attr('src', this.thumb_path);
 
-    this.thumb = $('<li />');
-    if (!this.css_transitions) {
-      this.thumb.css('opacity', this.opacity);
-    }
-    this.thumb.append(thumbImg);
+    this.thumb = $('<li />')
+      .append(thumbImg);
   }
   return this.thumb;
 },
