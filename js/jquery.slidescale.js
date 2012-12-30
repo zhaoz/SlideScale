@@ -127,6 +127,7 @@ $.slidescale = function (container, options) {
         }, this));
   }
 
+  this._resizeList();
   this.container.addClass('ready');
 };
 
@@ -250,8 +251,6 @@ init: function () {
 die: function () {
   this.container
     .unbind('.ss')
-
-    // XXX does * worK?
     .undelegate('*', '.ss');
 },
 
@@ -264,11 +263,14 @@ _recenter: function() {
   this._center(this.bottom, scimg.getThumb(), this.thumblist);
 },
 
-_onResize: function() {
+_resizeList: function() {
   var height = this.container.height() - this.opts.thumb_height;
   var margins = this.wrapper.outerHeight(true) - this.wrapper.height();
   this.list.height(height - margins);
+},
 
+_onResize: function() {
+  this._resizeList();
   this.list.children().each(function(ii, elem) {
     var elem = $(elem);
     var scimg = elem.data('ScImage.ss');
@@ -421,9 +423,22 @@ setImageIndex: function (ii) {
   }
 },
 
+/**
+ * go full screen, unles we can't. Then do nothing.
+ */
 makeFullScreen: function() {
-  this.container.get(0).webkitRequestFullScreen();
-  this._recalculateWidthAndHeight();
+  var containerElement = this.container.get(0);
+  var fNames = ['requestFullScreen', 'webkitRequestFullScreen',
+      'mozRequestFullScreen'];
+
+  for (var ii = 0; ii < fNames.length; ++ii) {
+    var fName = fNames[ii];
+    if (containerElement[fName]) {
+      containerElement[fName]();
+      this._recalculateWidthAndHeight();
+      return;
+    }
+  }
 }
 
 };
