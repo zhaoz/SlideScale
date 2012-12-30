@@ -551,8 +551,6 @@ resize: function() {
 
 
 $.slidescale.ScImage.defaults = {
-  css_transitions: CSS_TRANSITIONS_ENABLED,
-  opacity: 0.5,
   photo_dir: "./img/photos",
   name: undefined,
   thumb_dir: "./img/thumbs",
