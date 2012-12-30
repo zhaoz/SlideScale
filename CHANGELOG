@@ -9,8 +9,9 @@ ChangeLog
 - Resizing works now.
 - Images are now going to be the maximum size possible within the container.
   - if they are smaller than the max size, images are not scalled but will be centered.
-- some params were removed, e.g. galler_height because they are no longer applicable.
-- CSS transitions uesd whenever possible.
+- some params were removed, e.g. gallery_height because they are no longer applicable.
+- CSS transitions used whenever possible.
+- non CSS3 transition-able browsers don't get animate effect on hover of images anymore.
 
 
 0.2
