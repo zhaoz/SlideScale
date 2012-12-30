@@ -183,6 +183,19 @@
   background-image: url("../img/right_arrow.png");
 }
 
+.ss .ss-image-overlay {
+  padding: 0px;
+  margin: 0px;
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  margin: 0px;
+  background-color: none;
+}
+
 .ss-trans-bg {
   padding: 0px;
   margin: 0px;

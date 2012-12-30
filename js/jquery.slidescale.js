@@ -79,7 +79,6 @@ $.slidescale = function (container, options) {
   this.list
     .addClass('ss-list ss-image-list')
     .appendTo(this.wrapper);
-  setTimeout($.proxy(this._onResize, this), 0);
 
   this.wrapper
     .append('<div class="ss-prev ss-button" />')
@@ -164,7 +163,7 @@ init: function () {
       }
 
       if (!this.opts.css_transitions) {
-        scimg.overlay.animate({ opacity: scimg.opacity });
+        scimg.entry.animate({ opacity: scimg.opacity });
         scimg.getThumb().animate({ opacity: scimg.opacity });
       }
     }, this))
@@ -181,7 +180,7 @@ init: function () {
       }
 
       if (!this.opts.css_transitions) {
-        scimg.overlay.animate({ opacity: 0 });
+        scimg.entry.animate({ opacity: 0 });
         scimg.getThumb().animate({ opacity: 1 });
       }
     }, this))
@@ -256,10 +255,28 @@ die: function () {
     .undelegate('*', '.ss');
 },
 
+/**
+ * Recenter both the top image and the thumbnail list.
+ */
+_recenter: function() {
+  var scimg = this.images[this.curImage];
+  this._center(this.wrapper, scimg.entry, this.list);
+  this._center(this.bottom, scimg.getThumb(), this.thumblist);
+},
+
 _onResize: function() {
   var height = this.container.height() - this.opts.thumb_height;
   var margins = this.wrapper.outerHeight(true) - this.wrapper.height();
   this.list.height(height - margins);
+
+  this.list.children().each(function(ii, elem) {
+    var elem = $(elem);
+    var scimg = elem.data('ScImage.ss');
+    scimg.resize();
+  });
+
+  // recenter everything.
+  this._recenter();
 },
 
 _constructBottom: function (thumblist) {
@@ -448,6 +465,22 @@ $.slidescale.ScImage = function ScImage(entry, options) {
     this.entry = $('<li />');
   }
 
+  this.entry
+    .data("ScImage.ss", this);
+
+  this.overlay = $('<div class="ss-image-overlay" />')
+    .appendTo(this.entry);
+
+  this.linkOverlay = $('<a class="ss-trans-bg" />');
+  if (!this.css_transitions) {
+    this.linkOverlay.css('opacity', 1 - this.opacity)
+  }
+  this.linkOverlay.appendTo(this.overlay);
+
+  if (this.photo_link) {
+    this.linkOverlay.attr('href', this.photo_link);
+  }
+
   if (this.caption) {
     this.caption = $('<div class="ss-caption" />').append(this.caption);
 
@@ -459,20 +492,7 @@ $.slidescale.ScImage = function ScImage(entry, options) {
     $("<div class='ss-trans-bg' />")
       .prependTo(this.caption);
 
-    this.entry.append(this.caption);
-  }
-
-  this.entry
-    .data("ScImage.ss", this);
-
-  this.overlay = $('<a class="ss-trans-bg" />');
-  if (!this.css_transitions) {
-    this.overlay.css('opacity', 1 - this.opacity)
-  }
-  this.overlay.appendTo(this.entry);
-
-  if (this.photo_link) {
-    this.overlay.attr('href', this.photo_link);
+    this.overlay.append(this.caption);
   }
 
   this.image = undefined;
@@ -537,15 +557,28 @@ loadImage: function() {
 
   loaded.done($.proxy(function() {
     var imgElement = img.get(0);
-    this.naturalHeight = imgElement.height;
-    this.naturalWidth = imgElement.width;
+    this.naturalHeight = imgElement.naturalHeight || imgElement.height;
+    this.naturalWidth = imgElement.naturalWidth || imgElement.width;
     img.addClass('ss-photo');
     this.entry.addClass('ss-loaded');
+
+    this.resize();
   }, this));
 
   this.entry.prepend(img);
 
   return loaded;
+},
+/**
+ * Resize things inside of the element.
+ * TODO can this be done without js?
+ */
+resize: function() {
+  this.image.position({of: this.entry});
+
+  this.overlay.height(this.image.height());
+  this.overlay.width(this.image.width());
+  this.overlay.position({of: this.entry});
 }
 };
 
