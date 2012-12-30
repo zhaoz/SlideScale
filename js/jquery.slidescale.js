@@ -152,26 +152,13 @@ init: function () {
           }
         }, this))
     .delegate('.ss-list li', 'unsetCurrent.ss', $.proxy(function (eve) {
-      var elem = $(eve.currentTarget);
-      var scimg = elem.data('ScImage.ss');
-
-      scimg.entry.removeClass('ss-current ss-centered');
-      scimg.getThumb().removeClass('ss-current ss-centered');
-      if (scimg.caption) {
-        scimg.caption.hide('slide', { direction: "down" }, 'fast');
-      }
+      var scimg = $(eve.currentTarget).data('ScImage.ss');
+      scimg.unsetCurrent();
     }, this))
 
     .delegate('.ss-list li', 'setCurrent.ss', $.proxy(function (eve) {
-      var elem = $(eve.currentTarget);
-      var scimg = elem.data('ScImage.ss');
-
-      scimg.entry.addClass('ss-current');
-      scimg.getThumb().addClass('ss-current');
-
-      if (scimg.caption) {
-        scimg.caption.show('slide', { direction: "down" }, 'fast');
-      }
+      var scimg = $(eve.currentTarget).data('ScImage.ss');
+      scimg.setCurrent();
     }, this))
   ;
 
@@ -198,7 +185,7 @@ init: function () {
   this.list.on('transitionend MSTransitionEnd webkitTransitionEnd oTransitionEnd',
       $.proxy(function(eve) {
         // set centered class on curImate
-        var scimg = this.images[this.curImage];
+        var scimg = this.getCurrentScImage();
         scimg.entry.addClass('ss-centered');
         scimg.getThumb().addClass('ss-centered');
       }, this));
@@ -219,7 +206,7 @@ die: function () {
  * Recenter both the top image and the thumbnail list.
  */
 _recenter: function() {
-  var scimg = this.images[this.curImage];
+  var scimg = this.getCurrentScImage();
   this._center(this.wrapper, scimg.entry, this.list);
   this._center(this.bottom, scimg.getThumb(), this.thumblist);
 },
@@ -351,7 +338,7 @@ setImageIndex: function (ii) {
   }
 
   this.curImage = ii;
-  scimg = this.images[this.curImage];
+  scimg = this.getCurrentScImage();
 
   oldscimg = this.list.find('.ss-current').trigger('unsetCurrent');
   scimg.entry.trigger('setCurrent');
@@ -382,6 +369,10 @@ setImageIndex: function (ii) {
       n();
     }, this));
   }
+},
+
+getCurrentScImage: function() {
+  return this.images[this.curImage];
 },
 
 /**
@@ -477,6 +468,21 @@ $.slidescale.ScImage = function ScImage(entry, options) {
 };
 
 $.slidescale.ScImage.prototype = {
+setCurrent: function() {
+  this.entry.addClass('ss-current');
+  this.getThumb().addClass('ss-current');
+
+  if (this.caption) {
+    this.caption.show('slide', { direction: "down" }, 'fast');
+  }
+},
+unsetCurrent: function() {
+  this.entry.removeClass('ss-current ss-centered');
+  this.getThumb().removeClass('ss-current ss-centered');
+  if (this.caption) {
+    this.caption.hide('slide', { direction: "down" }, 'fast');
+  }
+},
 getThumb: function () {
   var thumbImg;
   if (!this.thumb) {
