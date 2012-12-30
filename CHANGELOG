@@ -5,6 +5,12 @@ ChangeLog
 ---
 
 - Refactoring, bumping up the jQuery version to latest 1.8.3 and UI to 1.9.2.
+- Image gallery size is now based on the size of the container it is placed in.
+- Resizing works now.
+- Images are now going to be the maximum size possible within the container.
+  - if they are smaller than the max size, images are not scalled but will be centered.
+- some params were removed, e.g. galler_height because they are no longer applicable.
+- CSS transitions uesd whenever possible.
 
 
 0.2
